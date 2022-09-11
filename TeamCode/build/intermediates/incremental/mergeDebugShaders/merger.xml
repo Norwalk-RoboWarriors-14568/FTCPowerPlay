@@ -1,13 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3">
-    <dataSet config="main"
-        ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~">
-        <source
-            path="C:\SkyStone-master11-17-19v5.3\TeamCode\src\main\java\org\firstinspires\ftc\FtcRobotController\TeamCode\src\main\shaders" />
-    </dataSet>
-    <dataSet config="debug"
-        ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~">
-        <source
-            path="C:\SkyStone-master11-17-19v5.3\TeamCode\src\main\java\org\firstinspires\ftc\FtcRobotController\TeamCode\src\debug\shaders" />
-    </dataSet>
-</merger>
+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\norwa\AndroidStudioProjects\FTCPowerPlay\TeamCode\src\main\shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\norwa\AndroidStudioProjects\FTCPowerPlay\TeamCode\src\debug\shaders"/></dataSet></merger>
