@@ -1,0 +1,39 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.rvrntloop.opmode.LinearOpMode;
+
+import org. firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+public class RRTrajectoriesTutorial extends LinearOpMode {
+     @Override
+    public void runOpMode(){
+        SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
+
+        waitForStart();
+
+        Trajectory splineToPosition = drivetrain.trajectoryBuilder(new Pose2D(x:0, y:36, heading:0))
+            .splineTo(new Pose2D(x:60, y:36,Math.ToRadions(0)))
+            .splineTo(new Pose2D(x:60, y:84,Math.ToRadions(90)))
+            .splineTo(new Pose2D(x:36, y:84,Math.ToRadions(180)))
+            .splineTo(new Pose2D(x:36, y:106,Math.ToRadions(90)))
+            .build();
+        drivetrain.followTrajectory(gofoward);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+}
