@@ -20,7 +20,7 @@
  * @author lizlooney@google.com (Liz Looney)
  */
 
-// These blocks are deprecated.
+// These blocks, except for tfodCurrentGame_typedEnum_label, are deprecated.
 
 // The following are generated dynamically in HardwareUtil.fetchJavaScriptForHardware():
 // createTfodCurrentGameLabelDropdown

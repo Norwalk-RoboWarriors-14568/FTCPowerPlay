@@ -1,144 +1,118 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/js/es5-shim.js" type="text/javascript"></script>
-    <script src="/js/es6-shim.js" type="text/javascript"></script>
-    <script src="/js/websocket-iframe.js" type="text/javascript"></script>
-    <script src="/js/jquery-3.4.1.min.js" type="text/javascript"></script>
-    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/es5-shim.js"></script>
+    <script type="text/javascript" src="/js/es6-shim.js"></script>
+    <script type="text/javascript" src="/js/websocket-iframe.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
-    <link href="/css/manage.less" rel="stylesheet/less" type="text/css">
-    <script src="/js/less.min.js" type="text/javascript"></script>
+    <link rel="stylesheet/less" type="text/css" href="/css/manage.less">
+    <script type="text/javascript" src="/js/less.min.js"></script>
 </head>
 <body>
-<div id="blocker"
-     style="display: none; z-index: 10; width: 100%; height: 200%; background-color: rgba(201,201,201,.7); position: fixed; top: 0; left: 0;">
-    <h2 id="blockerText"
-        style="margin:auto; margin-top: 10%; width: 60%; padding:5px; text-align: center; background-color: #ffffff; border: 2px solid black "></h2>
-</div>
-<div class="alert alert-info" id="progressBanner" role="alert"
-     style="position:fixed; width:100%; top:0px; display: none; z-index:10;">
-    <div id="progressMessage"></div>
-    <div class="progress" style="margin-top:20px; margin-bottom: 10px;">
-        <!-- Having a separate indeterminate progress bar prevents animating backwards -->
-        <div class="progress-bar" id="progressBar" role="progressbar"></div>
-        <div class="progress-bar progress-bar-striped active" id="indeterminateProgressBar"
-             role="progressbar" style="width:100%;"></div>
+    <div id="blocker" style="display: none; z-index: 10; width: 100%; height: 200%; background-color: rgba(201,201,201,.7); position: fixed; top: 0; left: 0;">
+        <h2 id="blockerText" style="margin:auto; margin-top: 10%; width: 60%; padding:5px; text-align: center; background-color: #ffffff; border: 2px solid black "></h2>
     </div>
-</div>
-<div class="bordered-text-block">
-    <h1 class="header-shared-line">Robot Controller version: </h1><span class="next-to-header"
-                                                                        id="id_rc_version"></span>
-    <div id="id_control_hub_os_version_item">
-        <h1 class="header-shared-line">Control Hub OS version: </h1><span class="next-to-header"
-                                                                          id="id_control_hub_os_version"></span>
-    </div>
-    <div id="id_rev_firmware_versions_item">
-        <h1>REV Hub firmware versions:</h1>
-        <div class="indented" id="id_rev_firmware_versions"></div>
-    </div>
-</div>
-<div class="bordered-text-block" id="id_network_settings_block">
-    <h1>Wi-Fi Settings</h1>
-    <form class="indented">
-        <div class="form-group">
-            <label for="id_rc_name">Name</label>
-            <input class="form-control limited-width" id="id_rc_name" type="text" value="(name)">
+    <div id="progressBanner" class="alert alert-info" role="alert" style="position:fixed; width:100%; top:0px; display: none; z-index:10;">
+        <div id="progressMessage"></div>
+        <div class="progress" style="margin-top:20px; margin-bottom: 10px;">
+            <!-- Having a separate indeterminate progress bar prevents animating backwards -->
+            <div id="progressBar" class="progress-bar" role="progressbar"></div>
+            <div id="indeterminateProgressBar" class="progress-bar progress-bar-striped active" style="width:100%;" role="progressbar"></div>
         </div>
-        <div class="form-group" id="id_password_group">
-            <label for="id_ap_new_password">New Password</label>
-            <input class="form-control limited-width" id="id_ap_new_password" type="password"
-                   value="">
+    </div>
+    <div class="bordered-text-block">
+        <h1 class="header-shared-line">Robot Controller version: </h1><span id="id_rc_version" class="next-to-header"></span>
+        <div id="id_control_hub_os_version_item">
+            <h1 class="header-shared-line">Control Hub OS version: </h1><span id="id_control_hub_os_version" class="next-to-header"></span>
         </div>
-        <div class="form-group" id="id_confirmed_password_group">
-            <label for="id_ap_confirmed_password">Confirm Password</label>
-            <input class="form-control limited-width" id="id_ap_confirmed_password" type="password"
-                   value="">
-            <div class="checkbox">
-                <label>
-                    <input onclick="onShowPasswordCheckbox()" type="checkbox">
-                    Show Password
-                </label>
+        <div id="id_rev_firmware_versions_item">
+            <h1>REV Hub firmware versions:</h1>
+            <div id="id_rev_firmware_versions" class="indented"></div>
+        </div>
+    </div>
+    <div class="bordered-text-block" id="id_network_settings_block">
+        <h1>Wi-Fi Settings</h1>
+        <form class="indented">
+            <div class="form-group">
+                <label for="id_rc_name">Name</label>
+                <input id="id_rc_name" class="form-control limited-width" type="text" value="(name)">
             </div>
-        </div>
-        <div class="form-group" id="id_wifi_band_group">
-            <label>Wi-Fi Band</label>
-            <br>
-            <label class="radio-inline">
-                <input id="id_wifi_band_24" name="wifiBand" onclick="updateChannelList();"
-                       type="radio" value="band_24">2.4 GHz
-            </label>
-            <label class="radio-inline">
-                <input id="id_wifi_band_5" name="wifiBand" onclick="updateChannelList();"
-                       type="radio" value="band_5">5 GHz
-            </label>
-            <span class="help-block">
+            <div class="form-group" id="id_password_group">
+                <label for="id_ap_new_password">New Password</label>
+                <input id="id_ap_new_password" class="form-control limited-width" type="password" value="">
+            </div>
+            <div class="form-group" id="id_confirmed_password_group">
+                <label for="id_ap_confirmed_password">Confirm Password</label>
+                <input id="id_ap_confirmed_password" class="form-control limited-width" type="password" value="">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" onclick="onShowPasswordCheckbox()">
+                        Show Password
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" id="id_wifi_band_group">
+                <label>Wi-Fi Band</label>
+                <br>
+                <label class="radio-inline">
+                    <input type="radio" name="wifiBand" id="id_wifi_band_24" value="band_24" onclick="updateChannelList();">2.4 GHz
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="wifiBand" id="id_wifi_band_5" value="band_5" onclick="updateChannelList();">5 GHz
+                </label>
+                <span class="help-block">
                     The 5 GHz Wi-Fi band is highly recommended, unless you need to connect older devices that only support 2.4 GHz Wi-Fi.
                 </span>
-        </div>
-        <div class="form-group">
-            <label for="id_ap_channel">Wi-Fi Channel</label>
-            <select class="form-control" id="id_ap_channel" onchange="updateApSettingsButton();"
-                    style="max-width: 150px; margin-bottom: 10px;"></select>
-            <div class="checkbox" id="id_show_overlapping_channels">
-                <label>
-                    <input id="id_show_overlapping_channels_checkbox"
-                           onclick="updateChannelList('overlappingChannelsCheckbox')"
-                           type="checkbox">
-                    Show overlapping channels (not recommended)
-                </label>
             </div>
-            <div class="sized-input alert alert-danger" id="id_submit_network_settings_warning"
-                 role="alert" style="display:inline-block; margin-bottom:0;">
-                Please select a Wi-Fi channel from the dropdown menu
+            <div class="form-group">
+                <label for="id_ap_channel">Wi-Fi Channel</label>
+                <select id="id_ap_channel" class="form-control" style="max-width: 150px; margin-bottom: 10px;" onchange="updateApSettingsButton();"></select>
+                <div class="checkbox" id="id_show_overlapping_channels">
+                    <label>
+                        <input type="checkbox" id="id_show_overlapping_channels_checkbox" onclick="updateChannelList('overlappingChannelsCheckbox')">
+                        Show overlapping channels (not recommended)
+                    </label>
+                </div>
+                <div id="id_submit_network_settings_warning" class="sized-input alert alert-danger" role="alert" style="display:inline-block; margin-bottom:0;">
+                    Please select a Wi-Fi channel from the dropdown menu
+                </div>
             </div>
-        </div>
-    </form>
-    <button class="aligned-select-button btn btn-primary" disabled
-            id="id_submit_network_settings_button" onclick="onSubmitNetworkSettings()"
-            title="Not connected to robot">
-        Apply Wi-Fi Settings
-    </button>
-    <div id="id_control_hub_wifi_warnings">
+        </form>
+        <button id="id_submit_network_settings_button" class="aligned-select-button btn btn-primary" disabled title="Not connected to robot" onclick="onSubmitNetworkSettings()">
+            Apply Wi-Fi Settings
+        </button>
+        <div id="id_control_hub_wifi_warnings">
             <span class="help-block">
             You will need to reconnect to the new Wi-Fi network after changing the Control Hub's name and/or password.
             </span>
-        <span class="help-block" style="margin-bottom:0; max-width:700px">
+            <span class="help-block" style="margin-bottom:0; max-width:700px">
                 If you are unable to connect to the Control Hub's network after switching to the 5 GHz band,
                 you can perform a Wi-Fi factory reset by holding down the Control Hub's button while you
                 turn it on, until you see a rapid sequence of color changes on the Control Hub's light.
                 The Wi-Fi network name and password will be reset to their default values, and the Wi-Fi band will be set to 2.4 GHz.
             </span>
+        </div>
     </div>
-</div>
 <div class="bordered-text-block">
     <div id="id_download_logs">
         <h1>Download Robot Controller Logs</h1>
-        <p>Examination of activity logs from the robot controller can sometimes help diagnose
-            problems and bugs.</p>
-        <p>
-            <button onclick="javascript:onDownloadLogsClicked()">Download Logs<span
-                    id="id_log_count"></span></button>
-        </p>
+        <p>Examination of activity logs from the robot controller can sometimes help diagnose problems and bugs.</p>
+        <p><button onclick="javascript:onDownloadLogsClicked()">Download Logs<span id="id_log_count"></span></button></p>
     </div>
     <div id="id_upload_firmware">
         <h1>Update REV Hub Firmware</h1>
-        <p>Update firmware on the REV Expansion Hub and REV Control Hub.<br>You can upload a
-            firmware file yourself, or use the included version.</p>
+        <p>Update firmware on the REV Expansion Hub and REV Control Hub.<br>You can upload a firmware file yourself, or use the included version.</p>
         <div>
             <p>
-                <input class="hidden hidden-input-file" id="id_input_file_firmware" type="file">
-                <input class="upload-feedback" id="id_firmware_feedback" readonly type="text"
-                       value="(firmware)">
-                <button class="aligned-select-button" id="id_firmware_button">Select Firmware...
-                </button>
+                <input id="id_input_file_firmware" type="file" class="hidden hidden-input-file">
+                <input id="id_firmware_feedback" readonly class="upload-feedback" type="text" value="(firmware)"><button id="id_firmware_button" class="aligned-select-button" >Select Firmware...</button>
             </p>
-            <button class="aligned-action-button" id="id_action_firmware"
-                    onclick="firmwareUpdateButtonClicked();">Upload
-            </button>
+            <button id="id_action_firmware" class="aligned-action-button" onclick="firmwareUpdateButtonClicked();">Upload</button>
         </div>
     </div>
     <div id="id_update_robot_controller_application">
@@ -146,15 +120,10 @@
         <p>Upload and install a new Robot Controller App to the REV Control Hub.</p>
         <div>
             <p>
-                <input class="hidden hidden-input-file" id="id_input_file_apk" type="file">
-                <input class="upload-feedback" id="id_apk_feedback" readonly type="text"
-                       value="(apk)">
-                <button class="aligned-select-button"
-                        id="id_apk_button">Select App...
-                </button>
-                <button class="aligned-action-button" id="id_action_apk" onclick="updateApk();">
-                    Update
-                </button>
+                <input id="id_input_file_apk" type="file" class="hidden hidden-input-file">
+                <input id="id_apk_feedback" readonly class="upload-feedback" type="text" value="(apk)"><button id="id_apk_button"
+                    class="aligned-select-button">Select App...</button>
+                <button id="id_action_apk" class="aligned-action-button" onclick="updateApk();">Update</button>
             </p>
         </div>
     </div>
@@ -163,18 +132,12 @@
         <p>Upload a webcam calibration file.</p>
         <div>
             <p>
-                <input class="hidden hidden-input-file" id="id_input_file_webcam_calibration"
-                       type="file">
-                <input class="upload-feedback" id="id_webcam_calibration_feedback" readonly
-                       type="text" value="(webcam_calibration)">
-                <button class="aligned-select-button" id="id_webcam_calibration_button">Select
-                    Webcam Calibration File...
-                </button>
-                <button class="aligned-action-button" id="id_action_webcam_calibration"
-                        onclick="uploadWebcamCalibration();">Upload
-                </button>
+                <input id="id_input_file_webcam_calibration" type="file" class="hidden hidden-input-file">
+                <input id="id_webcam_calibration_feedback" readonly class="upload-feedback" type="text" value="(webcam_calibration)">
+                    <button id="id_webcam_calibration_button" class="aligned-select-button" >Select Webcam Calibration File...</button>
+                <button id="id_action_webcam_calibration" class="aligned-action-button" onclick="uploadWebcamCalibration();">Upload</button>
             </p>
-            <p class="text-ok" id="id_webcam_calibration_upload_complete"></p>
+            <p id="id_webcam_calibration_upload_complete" class="text-ok"></p>
         </div>
     </div>
     <div id="id_manage_tflite_models">
@@ -194,34 +157,27 @@
         <p>Upload an Operating System update file for the REV Control Hub</p>
         <div>
             <p>
-                <input class="hidden hidden-input-file" id="id_input_file_ota" type="file">
-                <input class="upload-feedback" id="id_ota_feedback" readonly type="text"
-                       value="(zip)">
-                <button class="aligned-select-button" id="id_ota_button">Select Update File...
-                </button>
-                <button class="aligned-action-button" id="id_action_ota" onclick="uploadOta();">
-                    Update &amp; Reboot
-                </button>
+                <input id="id_input_file_ota" type="file" class="hidden hidden-input-file">
+                <input id="id_ota_feedback" readonly class="upload-feedback" type="text" value="(zip)">
+                <button id="id_ota_button" class="aligned-select-button">Select Update File...</button>
+                <button id="id_action_ota" class="aligned-action-button" onclick="uploadOta();">Update &amp; Reboot</button>
             </p>
         </div>
     </div>
 </div>
 
-<div aria-labelledby="id_fw_update_title" class="modal fade" id="id_fw_update_modal" role="dialog"
-     tabindex="-1">
+<div class="modal fade" id="id_fw_update_modal" tabindex="-1" role="dialog" aria-labelledby="id_fw_update_title">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="id_fw_update_title">REV Hub Firmware Update</h3>
             </div>
             <div class="modal-body">
                 <div id="id_fw_update_loading_devices">
                     <h4>Getting devices available for update</h4>
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                             style="width:100%;"></div>
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:100%;"></div>
                     </div>
                 </div>
                 <div id="id_fw_update_content">
@@ -237,14 +193,12 @@
                     <div class="panel panel-danger">
                         <div class="panel-heading"><h4 class="panel-title">Warning</h4></div>
                         <div class="panel-body">
-                            While the firmware update is in progress, do not unplug any hubs or
-                            restart
+                            While the firmware update is in progress, do not unplug any hubs or restart
                             the robot, or a hub may need to be updated again before it can be used.
                         </div>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-primary" data-dismiss="modal"
-                                id="id_fw_update_apply_button" type="button">
+                        <button type="button" id="id_fw_update_apply_button" class="btn btn-primary" data-dismiss="modal">
                             Update Hub Firmware
                         </button>
                     </div>
@@ -252,8 +206,7 @@
                 <div id="id_fw_update_no_devices_found">
                     <h4>No Expansion Hubs were found via USB.</h4>
                     <div class="text-center">
-                        <button class="btn btn-primary" onclick="openFirmwareUpdateModal()"
-                                type="button">
+                        <button type="button" onclick="openFirmwareUpdateModal()" class="btn btn-primary">
                             Re-scan for Expansion Hubs
                         </button>
                     </div>
@@ -263,8 +216,8 @@
     </div>
 </div>
 
-<script src="/js/rc_config.js" type="text/javascript"></script>
-<script src="/js/util.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/rc_config.js"></script>
+<script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript">
     'use strict';
 
@@ -910,8 +863,6 @@
         anchor.click();
         document.body.removeChild(anchor);
     }
-
-
 
 </script>
 </body>

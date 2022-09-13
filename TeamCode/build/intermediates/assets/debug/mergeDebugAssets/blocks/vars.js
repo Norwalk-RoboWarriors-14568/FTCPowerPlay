@@ -18,7 +18,7 @@
 var titlePrefix = 'FTC';
 var currentProjectName;
 var currentClassName = '';
-var savedBlkFileContent;
+var isDirty = false;
 var missingHardware = [];
 var blockIdsWithMissingHardware = [];
 var WarningBits = {
@@ -202,6 +202,7 @@ function knownTypeToClassName(type) {
       return 'com.qualcomm.robotcore.eventloop.opmode.' + type;
     case 'AccelerationSensor':
     case 'AnalogInput':
+    case 'AnalogOutput':
     case 'CRServo':
     case 'ColorSensor':
     case 'CompassSensor':
@@ -216,8 +217,6 @@ function knownTypeToClassName(type) {
     case 'DigitalChannel.Mode':
     case 'DistanceSensor':
     case 'Gamepad':
-    case 'Gamepad.LedEffect':
-    case 'Gamepad.LedEffect.Builder':
     case 'Gamepad.RumbleEffect':
     case 'Gamepad.RumbleEffect.Builder':
     case 'GyroSensor':
@@ -272,7 +271,6 @@ function knownTypeToClassName(type) {
     case 'ClassFactory':
     case 'JavaUtil':
     case 'Telemetry':
-    case 'Telemetry.DisplayFormat':
       return 'org.firstinspires.ftc.robotcore.external.' + type;
     case 'AndroidAccelerometer':
     case 'AndroidGyroscope':

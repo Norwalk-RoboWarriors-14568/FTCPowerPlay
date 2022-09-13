@@ -530,16 +530,11 @@ function saveProjectViaFile(projectName, blkFileContent, jsFileContent, callback
   }
   var blkFileName = projectName + '.blk';
   var extra = parseExtraXml(blkFileContent);
-  var transaction = db.transaction(['blkFiles'], 'readwrite');
-  transaction.oncomplete = function(event) {
-    callback(true, '');
-  };
-  var blkFilesObjectStore = transaction.objectStore('blkFiles');
+  var blkFilesObjectStore = db.transaction(['blkFiles'], 'readwrite')
+      .objectStore('blkFiles');
   var getRequest = blkFilesObjectStore.get(blkFileName);
   getRequest.onerror = function(event) {
-    console.log('IndexedDB get request failed:');
-    console.log(getRequest.error);
-    callback(false, 'Save project failed');
+    callback(false, 'Save project failed. (getRequest error)');
   };
   getRequest.onsuccess = function(event) {
     var value;
@@ -553,12 +548,13 @@ function saveProjectViaFile(projectName, blkFileContent, jsFileContent, callback
     }
     value['Content'] = blkFileContent;
     value['dateModifiedMillis'] = Date.now();
-    value['enabled'] = extra['enabled'];
+    value['enabled'] = extra['enabled']
     var putRequest = blkFilesObjectStore.put(value);
     putRequest.onerror = function(event) {
-      console.log('IndexedDB put request failed:');
-      console.log(putRequest.error);
-      callback(false, 'Save project failed');
+      callback(false, 'Save project failed. (putRequest error)');
+    };
+    putRequest.onsuccess = function(event) {
+      callback(true, '');
     };
   };
 }

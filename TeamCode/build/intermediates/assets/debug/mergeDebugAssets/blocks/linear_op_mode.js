@@ -25,6 +25,7 @@
 // The following are defined in vars.js:
 // createNonEditableField
 // functionColor
+// currentProjectName
 
 // Functions
 
@@ -32,6 +33,8 @@ Blockly.Blocks['linearOpMode_waitForStart'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('waitForStart'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -52,6 +55,8 @@ Blockly.Blocks['linearOpMode_idle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('idle'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -73,6 +78,8 @@ Blockly.Blocks['linearOpMode_sleep'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('sleep'));
     this.appendValueInput('MILLISECONDS') // no type, for compatibility
         .appendField('milliseconds')
@@ -100,6 +107,8 @@ Blockly.Blocks['linearOpMode_sleep_Number'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('sleep'));
     this.appendValueInput('MILLISECONDS').setCheck('Number')
         .appendField('milliseconds')
@@ -123,36 +132,16 @@ Blockly.JavaScript['linearOpMode_sleep_Number'] =
 Blockly.FtcJava['linearOpMode_sleep_Number'] =
     Blockly.FtcJava['linearOpMode_sleep'];
 
-Blockly.Blocks['linearOpMode_opModeInInit'] = {
-  init: function() {
-    this.setOutput(true, 'Boolean');
-    this.appendDummyInput()
-        .appendField('call')
-        .appendField(createNonEditableField('opModeInInit'));
-    this.setColour(functionColor);
-    this.setTooltip('Returns whether the OpMode is currently in Init. ' +
-        'A return of false can exit an Init loop and proceed with the next action.');
-  }
-};
-
-Blockly.JavaScript['linearOpMode_opModeInInit'] = function(block) {
-  var code = linearOpModeIdentifierForJavaScript + '.opModeInInit()';
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.FtcJava['linearOpMode_opModeInInit'] = function(block) {
-  var code = 'opModeInInit()';
-  return [code, Blockly.FtcJava.ORDER_FUNCTION_CALL];
-};
-
 Blockly.Blocks['linearOpMode_opModeIsActive'] = {
   init: function() {
     this.setOutput(true, 'Boolean');
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('opModeIsActive'));
     this.setColour(functionColor);
-    this.setTooltip('Returns true if this OpMode is active.');
+    this.setTooltip('Return true if this opMode is active.');
   }
 };
 
@@ -171,9 +160,11 @@ Blockly.Blocks['linearOpMode_isStarted'] = {
     this.setOutput(true, 'Boolean');
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('isStarted'));
     this.setColour(functionColor);
-    this.setTooltip('Returns true if this OpMode has been started.');
+    this.setTooltip('Return true if this opMode has been started.');
   }
 };
 
@@ -192,9 +183,11 @@ Blockly.Blocks['linearOpMode_isStopRequested'] = {
     this.setOutput(true, 'Boolean');
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('isStopRequested'));
     this.setColour(functionColor);
-    this.setTooltip('Returns true if stopping of this OpMode has been requested.');
+    this.setTooltip('Return true if stopping of this opMode has been requested.');
   }
 };
 
@@ -213,6 +206,8 @@ Blockly.Blocks['linearOpMode_getRuntime'] = {
     this.setOutput(true); // no type, for compatibility
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('getRuntime'));
     this.setColour(functionColor);
     this.setTooltip('Returns the number of seconds this op mode has been running.');
@@ -234,6 +229,8 @@ Blockly.Blocks['linearOpMode_getRuntime_Number'] = {
     this.setOutput(true, 'Number');
     this.appendDummyInput()
         .appendField('call')
+        .appendField(createNonEditableField(currentProjectName))
+        .appendField('.')
         .appendField(createNonEditableField('getRuntime'));
     this.setColour(functionColor);
     this.setTooltip('Returns the number of seconds this op mode has been running.');
@@ -248,66 +245,3 @@ Blockly.JavaScript['linearOpMode_getRuntime_Number'] =
 
 Blockly.FtcJava['linearOpMode_getRuntime_Number'] =
     Blockly.FtcJava['linearOpMode_getRuntime'];
-
-Blockly.Blocks['linearOpMode_resetRuntime'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('call')
-        .appendField(createNonEditableField('resetRuntime'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setColour(functionColor);
-    this.setTooltip('Reset the getRuntime() timer, which started at INIT.');
-  }
-};
-
-Blockly.JavaScript['linearOpMode_resetRuntime'] = function(block) {
-  return linearOpModeIdentifierForJavaScript + '.resetRuntime();\n';
-};
-
-Blockly.FtcJava['linearOpMode_resetRuntime'] = function(block) {
-  return 'resetRuntime();\n';
-};
-
-Blockly.Blocks['linearOpMode_requestOpModeStop'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('call')
-        .appendField(createNonEditableField('requestOpModeStop'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setColour(functionColor);
-    this.setTooltip('requestOpModeStop causes all subsequent calls to opModeIsActive to return ' +
-        'false to allow the program to end naturally, much like pressing the stop button on the ' +
-        'driver station interface.');
-  }
-};
-
-Blockly.JavaScript['linearOpMode_requestOpModeStop'] = function(block) {
-  return linearOpModeIdentifierForJavaScript + '.requestOpModeStop();\n';
-};
-
-Blockly.FtcJava['linearOpMode_requestOpModeStop'] = function(block) {
-  return 'requestOpModeStop();\n';
-};
-
-Blockly.Blocks['linearOpMode_terminateOpModeNow'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('call')
-        .appendField(createNonEditableField('terminateOpModeNow'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setColour(functionColor);
-    this.setTooltip('Immediately stops execution of the calling OpMode; and transitions to the ' +
-        'STOP state. No further code in the OpMode will execute once this has been called.');
-  }
-};
-
-Blockly.JavaScript['linearOpMode_terminateOpModeNow'] = function(block) {
-  return linearOpModeIdentifierForJavaScript + '.terminateOpModeNow();\n';
-};
-
-Blockly.FtcJava['linearOpMode_terminateOpModeNow'] = function(block) {
-  return 'terminateOpModeNow();\n';
-};

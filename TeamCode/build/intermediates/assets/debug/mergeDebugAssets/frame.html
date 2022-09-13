@@ -1,16 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/js/jquery-3.4.1.min.js" type="text/javascript"></script>
-    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
-    <link href="/css/frame.less" rel="stylesheet/less" type="text/css">
-    <script src="/js/less.min.js" type="text/javascript"></script>
-    <script src="/js/URI.min.js" type="text/javascript"></script>
-    <!-- http://medialize.github.io/URI.js/docs.html -->
+    <link rel="stylesheet/less" type="text/css" href="/css/frame.less">
+    <script type="text/javascript" src="/js/less.min.js"></script>
+    <script type="text/javascript" src="/js/URI.min.js"></script> <!-- http://medialize.github.io/URI.js/docs.html -->
     <script src="js/es5-shim.js"></script>
     <script src="js/es6-shim.js"></script>
     <script src="/js/websocket-core.js"></script>
@@ -121,32 +120,27 @@
         }
     }
 
-
-
     </script>
 </head>
 
 <body>
 
 <!-- fetch configuration information -->
-<script src="/js/rc_config.js" type="text/javascript"></script>
-<script src="/js/util.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/rc_config.js"></script>
+<script type="text/javascript" src="/js/util.js"></script>
 
-<nav class="navbar navbar-default navbar-fixed-top" id="theNavBar">
+<nav id="theNavBar" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button class="navbar-toggle" data-target="#theNavBarData" data-toggle="collapse"
-                    type="button">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#theNavBarData">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand navbar-link" href="javascript:void(0);"
-               onclick="navTo(URI_NAV_HOME);">
+            <a class="navbar-brand navbar-link" href="javascript:void(0);" onclick="navTo(URI_NAV_HOME);">
                 <span class="wordmarkandphrase">
-                    <span class="wordmark"><span class="wordmarkfirstword">FIRST</span><span
-                            class="trademark">®</span></span>
+                    <span class="wordmark"><span class="wordmarkfirstword">FIRST</span><span class="trademark">®</span></span>
                     <span class="brandphrase">
                         <span class="brandphraseword">robot</span>
                         <span class="brandphraseword">controller</span>
@@ -154,27 +148,18 @@
                     </span>
                 </span>
             </a>
-            <button class="btn navbar-btn btn-warning hidden" id="pingFailure">robot controller
-                disconnected
-            </button>
+            <button id="pingFailure" class="btn navbar-btn btn-warning hidden">robot controller disconnected</button>
         </div>
-        <div class="collapse navbar-collapse" id="theNavBarData">
-            <ul class="nav navbar-nav" id="theNavBarItems">
+        <div id="theNavBarData" class="collapse navbar-collapse">
+            <ul id="theNavBarItems" class="nav navbar-nav">
                 <!-- see RobotControllerWebHandlers -->
-                <li id="id_nav_blocks" role="presentation"><a href="javascript:void(0);"
-                                                              onclick="navToFromAnchor(this);">Blocks</a>
-                </li>
-                <li id="id_nav_onbotjava" role="presentation"><a href="javascript:void(0);"
-                                                                 onclick="navToFromAnchor(this);">OnBotJava</a>
-                </li>
-                <li id="id_nav_manage" role="presentation"><a href="javascript:void(0);"
-                                                              onclick="navToFromAnchor(this);">Manage</a>
-                </li>
+                <li role="presentation" id="id_nav_blocks"   ><a href="javascript:void(0);" onclick="navToFromAnchor(this);">Blocks</a></li>
+                <li role="presentation" id="id_nav_onbotjava"><a href="javascript:void(0);" onclick="navToFromAnchor(this);">OnBotJava</a></li>
+                <li role="presentation" id="id_nav_manage"   ><a href="javascript:void(0);" onclick="navToFromAnchor(this);">Manage</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right" id="theNavBarItemsRight">
+            <ul id="theNavBarItemsRight" class="nav navbar-nav navbar-right">
                 <!-- 'exit' is all the way at the end (ie: farther from 'manage' etc) so that clumsy fingers will less accidentally hit it -->
-                <li class="hidden" id="id_nav_exit" role="presentation"><a
-                        href="javascript:void(0);" onclick="navToFromAnchor(this);">Exit</a></li>
+                <li role="presentation" id="id_nav_exit" class="hidden"><a href="javascript:void(0);" onclick="navToFromAnchor(this);">Exit</a></li>
             </ul>
         </div>
     </div>
@@ -183,22 +168,20 @@
 <!-- the the point of the iframecontainer is to be able to suppress an extra scrollbar that comes
      up when the iframe is within 5px of its container height (remove the overflow-y to see) -->
 <div id="theIFrameContainer" style="overflow-y: hidden">
-    <iframe class="theiframe" id="theIFrame" onload="iframeChanged()"></iframe>
+    <iframe id="theIFrame" class="theiframe" onload="iframeChanged()"></iframe>
 </div>
 
-<div class="modal fade" id="promptModal" role="dialog" tabindex="-1">
+<div class="modal fade" id="promptModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body" style="padding-bottom: 5px; text-align: center;">
                 <b><span id="promptMessage"></span></b>
-                <p>
-                <p>
-                    <input class="form-control" id="promptResponse" type="text">
+                <p><p>
+                <input type="text" class="form-control" id="promptResponse">
             </div>
-            <div class="modal-footer"
-                 style="border-style: none; text-align: right; padding: 0 15px 15px 0;">
-                <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
-                <button class="btn btn-primary" onclick="onPromptOk()" type="button">OK</button>
+            <div class="modal-footer" style="border-style: none; text-align: right; padding: 0 15px 15px 0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="onPromptOk()">OK</button>
             </div>
         </div>
     </div>
@@ -423,8 +406,6 @@
     less.pageLoadFinished.then(function() {
         console.log("finished loading");
     });
-
-
 </script>
 
 </body>

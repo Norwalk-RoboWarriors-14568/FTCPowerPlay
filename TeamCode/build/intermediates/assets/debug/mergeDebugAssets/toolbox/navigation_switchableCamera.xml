@@ -1,1 +1,2 @@
-<block type="navigation_switchableCamera"></block>
+    <block type="navigation_switchableCamera">
+    </block>
