@@ -76,7 +76,7 @@ public class TeleOp4 extends OpMode {
 
     /**
      * The next 2 lines ends the current state of Opmode, and starts Opmode.loop()
-     * This enables control of the robot via the gamepad or starts autonomous functions
+     * This enables control of the robot via the gamepad or starts aut      onomous functions
      */
     @Override
     public void loop() {
@@ -84,6 +84,7 @@ public class TeleOp4 extends OpMode {
         telemetry.addLine("Loop OpMode\ndPadLeft: disable mecanum strafe is "+ !mecanumDriveMode +
                 "\ndPadRight: enable mecanum strafe is "+ mecanumDriveMode +
                 "\nX: brake motors is "+ !coastMotors +"\nY: coast motors is "+ coastMotors);
+
 
         telemetry.addData("LeftMTR  PWR: ", "50");
         telemetry.addData("RightMTR PWR: ", "50");
@@ -109,29 +110,17 @@ public class TeleOp4 extends OpMode {
                 mecanumStrafe = gamepad1.right_stick_x;
             }
 
-            if (gamepad1.left_bumper) {
-                motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe*0.01)); // previously 2
-                motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe*0.01));
-                motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe*0.01));
-                motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe*0.01));
-            } else if (gamepad1.right_bumper) {
-                motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe*0.1)); // previously 2 * .5
-                motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe*0.1));
-                motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe*0.1));
-                motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe*0.1));
-            } else {
-                motorLeft.setPower((gamepad1.left_stick_y *0.5 + -mecanumStrafe)); // previously 2 * .75
-                motorLeft2.setPower((gamepad1.left_stick_y *0.5 + mecanumStrafe));
-                motorRight.setPower((gamepad1.right_stick_y *0.5 + mecanumStrafe));
-                motorRight2.setPower((gamepad1.right_stick_y * 0.5+ -mecanumStrafe));
-            }
+                motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe)*0.5); // previously 2 * .75
+                motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe)*0.5);
+                motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe)*0.5);
+                motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe)*0.5);
         } else if (!mecanumDriveMode ) {
             if (gamepad1.left_bumper) {
                 drive(gamepad1.left_stick_y * 0.75, gamepad1.right_stick_y *0.75);
             } else if (gamepad1.right_bumper) {
                 drive(gamepad1.left_stick_y , gamepad1.right_stick_y);
             } else {
-                drive(gamepad1.left_stick_y* 0.10, gamepad1.right_stick_y* 0.10);       /////main speed
+                drive(gamepad1.left_stick_y* 0.50, gamepad1.right_stick_y* 0.50);       /////main speed
             }
         }
 
