@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 package org.firstinspires.ftc.teamcode.drive.opmode;/*
  * Copyright (c) 2019 OpenFTC Team
  *
@@ -387,4 +386,3 @@ public class OpenColorV_2
 
     }
 }
->>>>>>> Stashed changes
