@@ -28,8 +28,11 @@ public class StrafeTest extends LinearOpMode {
                 .strafeLeft(DISTANCE)
                 .build();
 
-        waitForStart();
-
+        while (!isStopRequested() && !isStarted()) {
+            telemetry.addData("Pose", drive.getPoseEstimate().toString());
+            telemetry.update();
+            drive.update();
+        }
         if (isStopRequested()) return;
 
         drive.followTrajectory(trajectory);
