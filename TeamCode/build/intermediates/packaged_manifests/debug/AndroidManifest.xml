@@ -7,8 +7,8 @@
 <!-- The package name here determines the package for your R class and your BuildConfig class -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qualcomm.ftcrobotcontroller"
-    android:versionCode="44"
-    android:versionName="7.1" >
+    android:versionCode="47"
+    android:versionName="8.0" >
 
     <uses-sdk
         android:minSdkVersion="23"
@@ -81,13 +81,29 @@
         assumed as required.
     -->
     <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" /> <!-- TODO replace above two with next line after Android 4.2 -->
+    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
 
     <application
         android:name="org.firstinspires.ftc.robotcore.internal.system.RobotApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:extractNativeLibs="true"
+        android:extractNativeLibs="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -148,6 +164,11 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/program_and_manage_activity" >
         </activity>
+        <activity
+            android:name="com.qualcomm.ftccommon.StackTraceActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask" />
         <activity
             android:name="com.qualcomm.ftccommon.FtcRobotControllerSettingsActivity"
             android:exported="true"
@@ -219,57 +240,15 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditMotorControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_motor_controller_activity"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditLegacyMotorControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_motor_controller_activity"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity
             android:name="com.qualcomm.ftccommon.configuration.EditMotorListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/edit_motor_controller_activity"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditServoControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_servo_controller_activity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditLegacyServoControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_servo_controller_activity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
             android:name="com.qualcomm.ftccommon.configuration.EditServoListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/edit_servo_controller_activity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditLegacyModuleControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_legacy_module_controller_activity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditMatrixControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_matrix_controller_activity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditDeviceInterfaceModuleActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_core_device_interface_module_controller_activity"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
@@ -325,12 +304,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/edit_i2c_devices_activity"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
-            android:name="com.qualcomm.ftccommon.configuration.EditAnalogOutputDevicesActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/edit_analog_output_devices_activity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity> <!-- A service that will auto-restart the robot controller if it crashes (if it's supposed to) -->
         <service
             android:name="org.firstinspires.ftc.ftccommon.internal.FtcRobotControllerWatchdogService"
@@ -382,6 +355,14 @@
                 <action android:name="com.revrobotics.controlhubupdater.broadcast.RESULT_BROADCAST" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:screenOrientation="sensorLandscape"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

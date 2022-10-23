@@ -85,13 +85,5 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
-
-.DS_Store
-.idea
-java_pid18272.hprof
-java_pid12308.hprof
-java_pid12308.hprof
-java_pid12308.hprof
-java_pid8484.hprof
-java_pid8484.hprof
+*.hprof
 *.hprof
