@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodesCurrent;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -16,8 +17,7 @@ import static java.lang.Math.abs;
  * All the code aside from importing, goes within a class file - essentially telling Android Studio-
  * to run this using java
  */
-
-@TeleOp(name = "TeleOp 4")
+@TeleOp(name = "TeleOp")
 
 
 public class TeleOp4 extends OpMode {
@@ -33,8 +33,8 @@ public class TeleOp4 extends OpMode {
             motorRight, motorRight2, motorLift;
 
     private Servo ConeGrabber;
-    //private CRServo servoCrFlapper;
-
+    //private  servoCrFlapper;
+    //private CRServo ConeGrabber;
     private boolean mecanumDriveMode = true, coastMotors = true;
     private float mecanumStrafe = 0, dominantXJoystick = 0;
 
@@ -58,6 +58,8 @@ public class TeleOp4 extends OpMode {
 
         //motorFlapper = hardwareMap.dcMotor.get("motor_8");
         ConeGrabber = hardwareMap.servo.get("ConeGrabber");
+        //ConeGrabber.scaleRange(0.0,1.0 );
+
         //servoCrFlapper = hardwareMap.crservo.get("servo_0");
 
         //so you don't have to wire red to black, to maintain program logic
@@ -85,8 +87,20 @@ public class TeleOp4 extends OpMode {
                 "\ndPadRight: enable mecanum strafe is "+ mecanumDriveMode +
                 "\nX: brake motors is "+ !coastMotors +"\nY: coast motors is "+ coastMotors);
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         telemetry.addData("LeftMTR  PWR: ", "50");
         telemetry.addData("RightMTR PWR: ", "50");
+=======
+        telemetry.addData("LeftMTR  PWR: ", motorLeft.getPower());
+        telemetry.addData("RightMTR PWR: ", motorRight.getPower());
+        telemetry.addData("Servo", ConeGrabber.getPosition());
+>>>>>>> Stashed changes
+=======
+        telemetry.addData("LeftMTR  PWR: ", motorLeft.getPower());
+        telemetry.addData("RightMTR PWR: ", motorRight.getPower());
+        telemetry.addData("Servo", ConeGrabber.getPosition());
+>>>>>>> Stashed changes
 //gamepad1          -specifying the section of code giving control to gamepad1-this reduces confusion
         //else if's are required, so that a motor doesn't receive the power of multiple lines
 
@@ -110,6 +124,8 @@ public class TeleOp4 extends OpMode {
             }
 
             if (gamepad1.left_bumper) {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe*0.01)); // previously 2
                 motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe*0.01));
                 motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe*0.01));
@@ -124,14 +140,43 @@ public class TeleOp4 extends OpMode {
                 motorLeft2.setPower((gamepad1.left_stick_y *0.5 + mecanumStrafe));
                 motorRight.setPower((gamepad1.right_stick_y *0.5 + mecanumStrafe));
                 motorRight2.setPower((gamepad1.right_stick_y * 0.5+ -mecanumStrafe));
+=======
+=======
+>>>>>>> Stashed changes
+                motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe) / 3.0); // previously 2
+                motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe) / 3.0);
+                motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe) / 3.0);
+                motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe) / 3.0);
+            } else if (gamepad1.right_bumper) {
+                motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe) / 1.5); // previously 2 * .5
+                motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe) / 1.5);
+                motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe) / 1.5);
+                motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe) / 1.5);
+            } else {
+                motorLeft.setPower((gamepad1.left_stick_y + -mecanumStrafe) / 2.25); // previously 2 * .75
+                motorLeft2.setPower((gamepad1.left_stick_y + mecanumStrafe) / 2.25);
+                motorRight.setPower((gamepad1.right_stick_y + mecanumStrafe) / 2.25);
+                motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe) / 2.25 );
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
             }
         } else if (!mecanumDriveMode ) {
             if (gamepad1.left_bumper) {
-                drive(gamepad1.left_stick_y * 0.75, gamepad1.right_stick_y *0.75);
+                drive(gamepad1.left_stick_y * 0.8, gamepad1.right_stick_y * 0.8 );
             } else if (gamepad1.right_bumper) {
-                drive(gamepad1.left_stick_y , gamepad1.right_stick_y);
+                drive(gamepad1.left_stick_y * 0.25, gamepad1.right_stick_y * 0.25);
             } else {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 drive(gamepad1.left_stick_y* 0.10, gamepad1.right_stick_y* 0.10);       /////main speed
+=======
+                drive(gamepad1.left_stick_y * 0.5, gamepad1.right_stick_y * 0.5);
+>>>>>>> Stashed changes
+=======
+                drive(gamepad1.left_stick_y * 0.5, gamepad1.right_stick_y * 0.5);
+>>>>>>> Stashed changes
             }
         }
 
@@ -164,17 +209,18 @@ public class TeleOp4 extends OpMode {
             motorLift.setPower(0);
         }
         if (gamepad2.left_bumper) {
-            ConeGrabber.setPosition(0.33);
-        }else if (gamepad2.right_bumper){
-            ConeGrabber.setPosition(0.5);
-        }
+            ConeGrabber.setPosition(0);
 
+        }else if (gamepad2.right_bumper){
+            ConeGrabber.setPosition(0.4);
+            //i = i + 0.01;//ConeGrabber.setPosition(0.5);
+        }
 
         // motorShoulder.setPower(gamepad2.left_stick_y); //it's already reversed direction above:
         //travels in the same direcion as rail pivot, and mounted as translation of rightDriveMotors
         // motorRail.setPower(gamepad2.right_stick_y); //opposite is true with the shoulder
 
-        //servoMarkerCR.setPower(gamepad2.right_stick_y);
+        //servoMarkerCR.setPower(gamepad2.right_stick_y34
 
 
 //end of loop opmode programing
@@ -184,7 +230,7 @@ public class TeleOp4 extends OpMode {
     @Override
     public void stop() {
         telemetry.clearAll();
-        telemetry.addLine("not working");
+        telemetry.addLine("Stopped");
     }
 
     public void drive(double left, double right) {
