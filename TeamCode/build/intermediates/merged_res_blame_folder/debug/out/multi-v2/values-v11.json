@@ -1,19 +1,11 @@
 {
     "logs": [
         {
-            "outputFile": "org.firstinspires.ftc.teamcode.TeamCode-mergeDebugResources-17:/values-v11/values-v11.xml",
+            "outputFile": "org.firstinspires.ftc.teamcode.TeamCode-mergeDebugResources-18:/values-v11/values-v11.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\norwa\\.gradle\\caches\\transforms-3\\39114483063e809ddc7f1c4ec76c504b\\transformed\\jetified-RobotCore-7.1.0\\res\\values-v11\\values-v11.xml",
+                    "source": "C:\\Users\\norwa\\.gradle\\caches\\transforms-3\\2bda372ce930124488129bbfad60d685\\transformed\\jetified-RobotCore-8.0.0\\res\\values-v11\\values-v11.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "4",
-                        "endColumns": "12",
-                        "endOffsets": "187"
-                    },
-                    "to": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",

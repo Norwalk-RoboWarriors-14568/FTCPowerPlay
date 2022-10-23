@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.OdometryGlobalCoordinatePosition;
 
 
-@TeleOp(name = "Global Coordinate Position Test", group = "Calibration")
+@TeleOp(name = "Global Coordinate Position ", group = "Calibration")
 public class GlobalCoordinatePositionUpdateSample extends LinearOpMode {
 
     //Odometry encoder wheels
