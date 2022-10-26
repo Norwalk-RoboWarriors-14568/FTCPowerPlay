@@ -86,4 +86,3 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 *.hprof
-*.hprof
