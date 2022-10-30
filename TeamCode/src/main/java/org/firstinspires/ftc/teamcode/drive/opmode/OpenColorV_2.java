@@ -43,18 +43,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class OpenColorV_2
 {
 
-    public enum SkystonePosition
-    {
-        RED,//james
-        BLUE,
-        GREEN,
-    }
+
     OpenCvWebcam webcam;
     SamplePipeline pipeline;
     static Telemetry telemetry;
 
     //@Override
-    public void OpenCv(HardwareMap hardwareMap, Telemetry telemetryIn, String thisColor)
+    public void OpenCv(HardwareMap hardwareMap, Telemetry telemetryIn)
     {
         telemetry = telemetryIn;
 
@@ -80,7 +75,7 @@ public class OpenColorV_2
          * (while a streaming session is in flight) *IS* supported.
          */
         pipeline = new SamplePipeline();
-       // pipeline.setColor(thisColor);
+        // pipeline.setColor(thisColor);
         webcam.setPipeline(pipeline);
 
         /*
@@ -140,12 +135,12 @@ public class OpenColorV_2
         //}
 
     }
-/*
+
     public int analysis()
     {
         return pipeline.getAnalysis().ordinal();
     }
-*/
+
     public void runWhileActive()
     {
         /*
@@ -158,7 +153,7 @@ public class OpenColorV_2
         telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
         telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
         telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
-      //  telemetry.addData("Analysis", pipeline.getAnalysis());
+        telemetry.addData("Analysis", pipeline.getAnalysis());
         telemetry.addData("Max", pipeline.getMax());
         telemetry.update();
         //linearOpMode.sleep(50);
@@ -202,169 +197,162 @@ public class OpenColorV_2
         //linearOpMode.sleep(100);
     }
 
-    /*
-     * An example image processing pipeline to be run upon receipt of each frame from the camera.
-     * Note that the processFrame() method is called serially from the frame worker thread -
-     * that is, a new camera frame will not come in while you're still processing a previous one.
-     * In other words, the processFrame() method will never be called multiple times simultaneously.
-     *
-     * However, the rendering of your processed image to the viewport is done in parallel to the
-     * frame worker thread. That is, the amount of time it takes to render the image to the
-     * viewport does NOT impact the amount of frames per second that your pipeline can process.
-     *
-     * IMPORTANT NOTE: this pipeline is NOT invoked on your OpMode thread. It is invoked on the
-     * frame worker thread. This should not be a problem in the vast majority of cases. However,
-     * if you're doing something weird where you do need it synchronized with your OpMode thread,
-     * then you will need to account for that accordingly.
-     */
     public static class SamplePipeline extends OpenCvPipeline
     {
+        public enum SkystonePosition
+        {
+            RED,
+            BLUE,
+            YELLOW
+        }
         static final Scalar BLUE = new Scalar(0, 0, 255);
-        static final Scalar GREEN = new Scalar(0, 255, 0);
+        static final Scalar BROWN = new Scalar(255, 1, 50);
+        static final Scalar YELLOW = new Scalar(255, 255, 51);
         static final Scalar RED = new Scalar(255, 0, 0);
-       // private volatile SkystonePosition position = SkystonePosition.LEFT;
+        private volatile OpenColorV_2.SamplePipeline.SkystonePosition position = OpenColorV_2.SamplePipeline.SkystonePosition.YELLOW;
         int cNum =0;
         int cNum1 =1;
         int cNum2 =2;
         static int posNum = 590;
         String colorBlue = "BLUE";
-        String colorRed = "RED";
-        String colorRedNeg = "REDNEG";
+        String colorRed = "YELLOW";
+        String colorRedNeg = "RED";
 
 
 
-        Mat region2_Cb, region3_Cb,region4_Cb;
+        Mat region2_Cb, region3_Cb,region4_Cb, region5_Cb;
         Mat YCrCb = new Mat();
         Mat Cr = new Mat();
         Mat Cb = new Mat();
+        Mat outPut = new Mat();
 
         int avg2, avg3, avg4;
-        static final int REGION_WIDTH = (250/1280)*640;
-        static final int REGION_HEIGHT = (210/720)*480;
+        static final int REGION_WIDTH = 50;
+        static final int REGION_HEIGHT = 50;
 
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(newResX(256),newResY(250));
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(275,230);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(275,230);
+        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(275,230);
 
-        public void setColor(String thisColor){
-
-            if(thisColor.equals(colorBlue)){
-                cNum = 2;
-                posNum = 640;
-            } else if (thisColor.equals(colorRed)){
-                cNum = 1;
-                posNum = 512;
-            }
-            //REGION3_TOPLEFT_ANCHOR_POINT = new Point((posNum/1280)*640,(250/720)*480);
-            telemetry.addLine("Amongus");
-            telemetry.update();
-        }
-
-
-        public static double newResX(double oldRes){
-            double newRes;
-            newRes = (oldRes/1280)*640;
-            return newRes;
-        }
-        public static double newResY(double oldRes){
-            double newRes;
-            newRes = (oldRes/720)*480;
-            return newRes;
-        }
 
         void inputToCb(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
             Core.extractChannel(YCrCb, Cb, cNum2);
         }
+        void inputToCbInvert(Mat input)
+        {
+            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+            Core.extractChannel(YCrCb, Cb, cNum2);
+            Core.bitwise_not(Cb, outPut);
+
+        }
+
         void inputToCr(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
             Core.extractChannel(YCrCb, Cr, cNum1);
         }
 
-
+        Point region1_pointA = new Point(
+                REGION1_TOPLEFT_ANCHOR_POINT.x,
+                REGION1_TOPLEFT_ANCHOR_POINT.y);
+        Point region1_pointB = new Point(
+                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
         Point region2_pointA = new Point(
                 REGION2_TOPLEFT_ANCHOR_POINT.x,
                 REGION2_TOPLEFT_ANCHOR_POINT.y);
         Point region2_pointB = new Point(
                 REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
                 REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+        Point region3_pointA = new Point(
+                REGION3_TOPLEFT_ANCHOR_POINT.x,
+                REGION3_TOPLEFT_ANCHOR_POINT.y);
+        Point region3_pointB = new Point(
+                REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
 
 
         @Override
         public void init(Mat firstFrame)
         {
-            inputToCr(firstFrame);
-            region2_Cb = Cr.submat(new Rect(region2_pointA, region2_pointB));
-            region4_Cb = Cr.submat(new Rect(region2_pointA, region2_pointB));
             inputToCb(firstFrame);
-            region3_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
+            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
+            inputToCbInvert(firstFrame);
+            region4_Cb = outPut.submat(new Rect(region1_pointA, region1_pointB));
+            inputToCr(firstFrame);
+            region3_Cb = Cr.submat(new Rect(region3_pointA, region3_pointB));
 
         }
-
         @Override
         public Mat processFrame(Mat input)
         {
-            inputToCr(input);
-            avg2 = (int) Core.mean(region2_Cb).val[0];
-            avg4 = (int) Core.mean(region2_Cb).val[0];
+
             inputToCb(input);
-            avg3 = (int) Core.mean(region2_Cb).val[0];
+            avg2 = (int) Core.mean(region2_Cb).val[0];
+            inputToCbInvert(input);
+            avg4 = (int) Core.mean(region4_Cb).val[0];
+            inputToCr(input);
+
+            avg3 = (int) Core.mean(region3_Cb).val[0];
 
             Imgproc.rectangle(
                     input, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    RED, // The color the rectangle is drawn in
-                    20/1280*640); // Thickness of the rectangle lines
+                    region1_pointA, // First point which defines the rectangle
+                    region1_pointB, // Second point which defines the rectangle
+                    BROWN, // The color the rectangle is drawn in
+                    5); // Thickness of the rectangle lines
             Imgproc.rectangle(
                     input, // Buffer to draw on
                     region2_pointA, // First point which defines the rectangle
                     region2_pointB, // Second point which defines the rectangle
-                    RED, // The color the rectangle is drawn in
-                    20/1280*640); // Thickness of the rectangle lines
+                    BROWN, // The color the rectangle is drawn in
+                    5); // Thickness of the rectangle lines
             Imgproc.rectangle(
                     input, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    RED, // The color the rectangle is drawn in
-                    20/1280*640); // Thickness of the rectangle lines
+                    region3_pointA, // First point which defines the rectangle
+                    region3_pointB, // Second point which defines the rectangle
+                    BROWN, // The color the rectangle is drawn in
+                    5); // Thickness of the rectangle lines
 
 
             int maxTwoThree = Math.max(avg3, avg2);
             int max = Math.max(maxTwoThree, avg4);
 
-             if(max == avg2) // Was it from region 2?
+
+            if( max == avg2) // Was it from region 2?
             {
-               // position = SkystonePosition.LEFT; // Record our analysis
+                position = OpenColorV_2.SamplePipeline.SkystonePosition.BLUE; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
                         region2_pointA, // First point which defines the rectangle
                         region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
+                        BLUE, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
-            else if(max == avg3) // Was it from region 3?
+            else if( max == avg3 ) // Was it from region 3?
             {
-         //       position = SkystonePosition.CENTER; // Record our analysis
+                position = OpenColorV_2.SamplePipeline.SkystonePosition.RED; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
+                        region3_pointA, // First point which defines the rectangle
+                        region3_pointB, // Second point which defines the rectangle
+                        RED, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
-            else if(max == avg4) // Was it from region 2?
+            else if (max == avg4) // Was it from region 2?
             {
-        //        position = SkystonePosition.RIGHT; // Record our analysis
+                position = OpenColorV_2.SamplePipeline.SkystonePosition.YELLOW; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
+                        region1_pointA, // First point which defines the rectangle
+                        region1_pointB, // Second point which defines the rectangle
+                        YELLOW, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
 
@@ -372,11 +360,11 @@ public class OpenColorV_2
             return input;
         }
 
-      /*  public SkystonePosition getAnalysis()
+        public OpenColorV_2.SamplePipeline.SkystonePosition getAnalysis()
         {
             return position;
         }
-*/
+
         public int getMax(){
             int maxTwoThree = Math.max(avg3, avg2);
             int max = Math.max(maxTwoThree, avg4);

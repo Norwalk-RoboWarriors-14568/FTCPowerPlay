@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
 /*
@@ -31,37 +32,79 @@ public class RedSideAuto extends LinearOpMode {
     public static double MAX_VEL = 100;
     public static double MAX_ACC = 20;
     SampleMecanumDrive drive;
+    OpenColorV_2 openCv;
 
     //private Servo ConeGrabber, OdLift;
     @Override
     public void runOpMode() throws InterruptedException {
         drive= new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(new Pose2d());
+        openCv = new OpenColorV_2();
+        openCv.OpenCv(hardwareMap, telemetry);
 
-
-        Trajectory traj4 = drive.trajectoryBuilder(new Pose2d())
-                .forward(2).build();
-        Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
-               .strafeLeft(21).build();
-
-        Trajectory traj10 = drive.trajectoryBuilder(traj5.end())
-                .lineToSplineHeading(new Pose2d(32.4, 24, Math.toRadians(-60)))
-                .build();
-
-
-        Trajectory traj7 = drive.trajectoryBuilder(traj10.end())
-                .forward(4.5).build();
-        Trajectory traj9 = drive.trajectoryBuilder(traj7.end())
-                //  .lineToSplineHeading(new Pose2d(24,20, Math.toRadians(0)))
+        TrajectorySequence trajSeqRED = drive.trajectorySequenceBuilder(new Pose2d())
+                .forward(2).waitSeconds(0.3)
+                .strafeLeft(21).waitSeconds(0.3)
+                .lineToSplineHeading(new Pose2d(32.4, 24, Math.toRadians(-60))).waitSeconds(0.3)
+                .addTemporalMarker(() -> drive.motorLift.setPower(-1)).waitSeconds(1.5)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0))
+                .forward(4.5).waitSeconds(1.5)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0.1)).waitSeconds(0.75)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0))
+                .addTemporalMarker(() -> drive.ConeGrabber.setPosition(0.4))
                 .back(4)
+                .turn(Math.toRadians(-145)).waitSeconds(0.3)
+                .addTemporalMarker(() -> drive.OdLift.setPosition(0.5))
                 .build();
 
-        waitForStart();
+        TrajectorySequence trajSeqBLUE = drive.trajectorySequenceBuilder(new Pose2d())
+                .forward(2).waitSeconds(0.3)
+                .strafeLeft(21).waitSeconds(0.3)
+                .lineToSplineHeading(new Pose2d(32.4, 24, Math.toRadians(-60))).waitSeconds(0.3)
+                .addTemporalMarker(() -> drive.motorLift.setPower(-1)).waitSeconds(1.5)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0))
+                .forward(4.5).waitSeconds(1.5)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0.1)).waitSeconds(0.75)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0))
+                .addTemporalMarker(() -> drive.ConeGrabber.setPosition(0.4))
+                .back(4)
+                .turn(Math.toRadians(-145)).waitSeconds(0.3)
+                .addTemporalMarker(() -> drive.OdLift.setPosition(0.5))
+                .build();
+
+        TrajectorySequence trajSeqYELLOW = drive.trajectorySequenceBuilder(new Pose2d())
+                .forward(2).waitSeconds(0.3)
+                .strafeLeft(21).waitSeconds(0.3)
+                .lineToSplineHeading(new Pose2d(32.4, 24, Math.toRadians(-60))).waitSeconds(0.3)
+                .addTemporalMarker(() -> drive.motorLift.setPower(-1)).waitSeconds(1.5)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0))
+                .forward(4.5).waitSeconds(1.5)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0.1)).waitSeconds(0.75)
+                .addTemporalMarker(() -> drive.motorLift.setPower(0))
+                .addTemporalMarker(() -> drive.ConeGrabber.setPosition(0.4))
+                .back(4)
+                .turn(Math.toRadians(-145)).waitSeconds(0.3)
+                .addTemporalMarker(() -> drive.OdLift.setPosition(0.5))
+                .build();
+
+
+        while (!isStarted() && !isStopRequested())
+        {
+            telemetry.addData("Realtime analysis", openCv.pipeline.getAnalysis());
+            telemetry.update();
+
+            // Don't burn CPU cycles busy-looping in this sample
+            sleep(100);
+        }
+        int snapshotAnalysis = openCv.analysis();
+
+        telemetry.addData("Snapshot post-START analysis", snapshotAnalysis);
+        telemetry.update();
 
         if (isStopRequested()) return;
 
         drive.ConeGrabber.setPosition(0);
-
+/*
         drive.followTrajectory(traj4);
         sleep(300);
         drive.followTrajectory(traj5);
@@ -96,8 +139,27 @@ public class RedSideAuto extends LinearOpMode {
         sleep(300);
         drive.OdLift.setPosition(0.5);
 
+*/
+        switch (snapshotAnalysis)
+        {
+            case 1://RED
+            {
+                drive.followTrajectorySequence(trajSeqRED);
+                break;
+            }
 
+            case 2://BLUE
+            {
+                drive.followTrajectorySequence(trajSeqBLUE);
+                break;
+            }
 
+            case 3://YELLOW
+            {
+                drive.followTrajectorySequence(trajSeqYELLOW);
+                break;
+            }
+        }
 
         sleep(2000);
 /*
