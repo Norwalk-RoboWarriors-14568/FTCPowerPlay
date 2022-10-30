@@ -142,7 +142,7 @@ public class RedSideAuto extends LinearOpMode {
 
     }
     */
-     
+
     /*public boolean IsInRange(double inches, double target){
         final float DEAD_RANGE = 20;
 
