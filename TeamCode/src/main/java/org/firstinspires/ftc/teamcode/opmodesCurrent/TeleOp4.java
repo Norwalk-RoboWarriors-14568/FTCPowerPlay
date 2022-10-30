@@ -32,7 +32,7 @@ public class TeleOp4 extends OpMode {
     private DcMotor motorLeft, motorLeft2,
             motorRight, motorRight2, motorLift;
 
-    private Servo ConeGrabber;
+    private Servo ConeGrabber, OdLift;
     //private  servoCrFlapper;
     //private CRServo ConeGrabber;
     private boolean mecanumDriveMode = true, coastMotors = true;
@@ -58,6 +58,7 @@ public class TeleOp4 extends OpMode {
 
         //motorFlapper = hardwareMap.dcMotor.get("motor_8");
         ConeGrabber = hardwareMap.servo.get("ConeGrabber");
+        OdLift = hardwareMap.servo.get("OdLift");
         //ConeGrabber.scaleRange(0.0,1.0 );
 
         //servoCrFlapper = hardwareMap.crservo.get("servo_0");
@@ -173,7 +174,12 @@ public class TeleOp4 extends OpMode {
             ConeGrabber.setPosition(0.4);
             //i = i + 0.01;//ConeGrabber.setPosition(0.5);
         }
+        if(gamepad1.dpad_up){
+            OdLift.setPosition(0);
+        } else if (gamepad1.dpad_down){
+            OdLift.setPosition(1);
 
+        }
         // motorShoulder.setPower(gamepad2.left_stick_y); //it's already reversed direction above:
         //travels in the same direcion as rail pivot, and mounted as translation of rightDriveMotors
         // motorRail.setPower(gamepad2.right_stick_y); //opposite is true with the shoulder
