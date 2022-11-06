@@ -95,11 +95,7 @@ public class RedSideAuto extends LinearOpMode {
         drive.followTrajectorySequence(trajSeq);
         switch (snapshotAnalysis)
         {
-            case 0://RED
-            {
-                drive.followTrajectory(trajRed);
-                break;
-            }
+            
             case 1://BLUE
             {
                 drive.followTrajectory(trajBlue);
