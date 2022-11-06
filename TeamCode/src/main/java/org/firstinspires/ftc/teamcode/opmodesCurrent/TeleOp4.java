@@ -131,11 +131,11 @@ public class TeleOp4 extends OpMode {
             }
         } else if (!mecanumDriveMode ) {
             if (gamepad1.left_bumper) {
-                drive(gamepad1.left_stick_y * 0.8, gamepad1.right_stick_y * 0.8 );
+                drive(gamepad1.left_stick_y * 0.9, gamepad1.right_stick_y * 0.9 );
             } else if (gamepad1.right_bumper) {
                 drive(gamepad1.left_stick_y * 0.25, gamepad1.right_stick_y * 0.25);
             } else {
-                drive(gamepad1.left_stick_y * 0.5, gamepad1.right_stick_y * 0.5);
+                drive(gamepad1.left_stick_y * 0.6, gamepad1.right_stick_y * 0.6);
             }
         }
 
