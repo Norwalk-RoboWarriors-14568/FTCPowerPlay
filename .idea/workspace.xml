@@ -8,23 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea5dfc6d-ba7b-4e04-83b9-781ab849afb4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/OpenColorV_4.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FtcRobotController/build/generated/source/buildConfig/debug/com/qualcomm/ftcrobotcontroller/BuildConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/generated/source/buildConfig/debug/com/qualcomm/ftcrobotcontroller/BuildConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/drawable-xhdpi-v4_icon_menu.png.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/drawable-xhdpi-v4_icon_menu.png.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/drawable-xhdpi-v4_icon_robotcontroller.png.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/drawable-xhdpi-v4_icon_robotcontroller.png.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/layout_activity_ftc_controller.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/layout_activity_ftc_controller.xml.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/menu_ftc_robot_controller.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/menu_ftc_robot_controller.xml.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/raw_gold.wav.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/raw_gold.wav.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/raw_silver.wav.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/raw_silver.wav.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/xml_app_settings.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/xml_app_settings.xml.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/xml_device_filter.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/compiled_local_resources/debug/out/xml_device_filter.xml.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/debug/packageDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/debug/packageDebugResources/merger.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FtcRobotController/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/SampleMecanumDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/SampleMecanumDrive.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/OpenColorV_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/OpenColorV_2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/OpenCvMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/OpenCvMarker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/RedSideAuto.java" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/RedSideAuto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +51,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\norwa\Documents\GitHub\FtcRobotController\TeamCode\src\main\java\org\firstinspires\ftc\teamcode" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.firstinspires.ftc.teamcode.drive.opmode" />
     </key>
   </component>
   <component name="RunManager">
