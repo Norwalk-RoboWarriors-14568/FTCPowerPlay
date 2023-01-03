@@ -57,11 +57,13 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(1/4, 0, 1);
-    //public static PIDCoefficients HEADING_PID = new PIDCoefficients(11.5, 0.4, 1.6);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(1, 0, 0.1);
+   public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3, 0, 0);//4
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);//3
+    //public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0);//8
+    //public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);//5
+   // public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);//8
 
-    public static double LATERAL_MULTIPLIER = 0.98923897;
+    public static double LATERAL_MULTIPLIER = 1;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -74,7 +76,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private TrajectoryFollower follower;
 
-    public DcMotorEx leftFront, leftRear, rightRear, rightFront, motorLift;
+    public DcMotorEx leftFront, leftRear, rightRear, rightFront, motorLift, motorFlip;
     public Servo ConeGrabber, OdLift;
     private List<DcMotorEx> motors;
 
@@ -128,7 +130,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         motorLift = hardwareMap.get(DcMotorEx.class, "lift");
-
+        motorFlip = hardwareMap.get(DcMotorEx.class,"rightEncoder");
         ConeGrabber = hardwareMap.servo.get("ConeGrabber");
 
         OdLift = hardwareMap.servo.get("OdLift");
@@ -158,7 +160,6 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         //setLocalizer(new ThreeTrackingWheelLocalizer(HardwareMap));
-        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }

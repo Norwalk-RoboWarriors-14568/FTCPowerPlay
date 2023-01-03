@@ -36,6 +36,26 @@ public class LocalizationTest extends LinearOpMode {
             drive.update();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
+            if (gamepad2.right_stick_y >0.2 || gamepad2.right_stick_y < -0.2 ) {
+                drive.motorLift.setPower(gamepad2.right_stick_y);
+            }else {
+                drive.motorLift.setPower(0);
+            }
+            if (gamepad2.a){
+                drive.motorFlip.setPower(1);
+            }else if(gamepad2.b){
+                drive.motorFlip.setPower(-0.3);
+            }else{
+                drive.motorFlip.setPower(0);
+            }
+            if (gamepad2.left_bumper) {
+                drive.ConeGrabber.setPosition(0);
+
+            }else if (gamepad2.right_bumper){
+                drive.ConeGrabber.setPosition(0.4);
+                //i = i + 0.01;//ConeGrabber.setPosition(0.5);
+            }
+
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());

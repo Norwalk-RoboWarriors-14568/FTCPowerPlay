@@ -227,12 +227,12 @@ public class OpenColorV_2
         Mat outPut = new Mat();
 
         int avg2, avg3, avg4;
-        static final int REGION_WIDTH = 45;
+        static final int REGION_WIDTH = 55;
         static final int REGION_HEIGHT = 75;
 
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(495,153);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(495,153);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(495,153);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(490,153);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(490,153);
+        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(490,153);
 
 
 

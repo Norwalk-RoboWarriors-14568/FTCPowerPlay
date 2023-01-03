@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(group = "LIAMS ODOMETRY CODE  ")
+//@Autonomous(group = "LIAMS ODOMETRY CODE  ")
 public class RRTrajectoryTune extends LinearOpMode {
      @Override
     public void runOpMode() throws InterruptedException {

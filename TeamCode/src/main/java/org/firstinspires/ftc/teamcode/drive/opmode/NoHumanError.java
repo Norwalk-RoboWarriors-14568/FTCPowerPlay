@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name = "NO ERROR TeleOp 4")
+//@TeleOp(name = "NO ERROR TeleOp 4")
 
 public class NoHumanError extends OpMode {
     private DcMotor motorLeft, motorLeft2,

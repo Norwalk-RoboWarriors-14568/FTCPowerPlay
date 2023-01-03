@@ -1,10 +1,29 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+
+package org.firstinspires.ftc.teamcode.drive.opmode;/*
+ * Copyright (c) 2019 OpenFTC Team
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -18,15 +37,21 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-//@TeleOp(name = "OpenCvMarker")
+//@TeleOp(name = "OpenCvRed")
 
-public class OpenCvMarker extends LinearOpMode
+public class openCV33
 {
+
+
     OpenCvWebcam webcam;
     SamplePipeline pipeline;
-    @Override
-    public void runOpMode()
+    static Telemetry telemetry;
+
+    //@Override
+    public void OpenCv(HardwareMap hardwareMap, Telemetry telemetryIn)
     {
+        telemetry = telemetryIn;
+
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using a webcam. Note that you will need to
@@ -39,7 +64,7 @@ public class OpenCvMarker extends LinearOpMode
          */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
         // OR...  Do Not Activate the Camera Monitor View
         //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
@@ -49,7 +74,9 @@ public class OpenCvMarker extends LinearOpMode
          * (while a streaming session is in flight) *IS* supported.
          */
         pipeline = new SamplePipeline();
+        // pipeline.setColor(thisColor);
         webcam.setPipeline(pipeline);
+
         /*
          * Open the connection to the camera device. New in v1.4.0 is the ability
          * to open the camera asynchronously, and this is now the recommended way
@@ -99,65 +126,74 @@ public class OpenCvMarker extends LinearOpMode
         /*
          * Wait for the user to press start on the Driver Station
          */
-        waitForStart();
+        //waitForStart();
 
-        while (opModeIsActive())
-        {
-            /*
-             * Send some stats to the telemetry
-             */
-            telemetry.addData("Frame Count", webcam.getFrameCount());
-            telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
-            telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
-            telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
-            telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
-            telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Max", pipeline.getMax());
-            telemetry.addData("YELLOW", pipeline.avg4);
-            telemetry.addData("BLUE", pipeline.avg2);
-            telemetry.addData("RED", pipeline.avg3);
+        //while (opModeIsActive())
+        //{
 
-            telemetry.update();
-            sleep(50);
+        //}
 
-            /*
-             * NOTE: stopping the stream from the camera early (before the end of the OpMode
-             * when it will be automatically stopped for you) *IS* supported. The "if" statement
-             * below will stop streaming from the camera when the "A" button on gamepad 1 is pressed.
-             */
-            if(gamepad1.a)
-            {
-                /*
-                 * IMPORTANT NOTE: calling stopStreaming() will indeed stop the stream of images
-                 * from the camera (and, by extension, stop calling your vision pipeline). HOWEVER,
-                 * if the reason you wish to stop the stream early is to switch use of the camera
-                 * over to, say, Vuforia or TFOD, you will also need to call closeCameraDevice()
-                 * (commented out below), because according to the Android Camera API documentation:
-                 *         "Your application should only have one Camera object active at a time for
-                 *          a particular hardware camera."
-                 *
-                 * NB: calling closeCameraDevice() will internally call stopStreaming() if applicable,
-                 * but it doesn't hurt to call it anyway, if for no other reason than clarity.
-                 *
-                 * NB2: if you are stopping the camera stream to simply save some processing power
-                 * (or battery power) for a short while when you do not need your vision pipeline,
-                 * it is recommended to NOT call closeCameraDevice() as you will then need to re-open
-                 * it the next time you wish to activate your vision pipeline, which can take a bit of
-                 * time. Of course, this comment is irrelevant in light of the use case described in
-                 * the above "important note".
-                 */
-                webcam.stopStreaming();
-                //webcam.closeCameraDevice();
-            }
+    }
 
-            /*
-             * For the purposes of this sample, throttle ourselves to 10Hz loop to avoid burning
-             * excess CPU cycles for no reason. (By default, telemetry is only sent to the DS at 4Hz
-             * anyway). Of course in a real OpMode you will likely not want to do this.
-             */
-            sleep(100);
-        }
+    public int analysis()
+    {
+        return pipeline.getAnalysis().ordinal();
+    }
+
+    public void runWhileActive()
+    {
+        /*
+         * Send some stats to the telemetry
+         */
+
+        telemetry.addData("Frame Count", webcam.getFrameCount());
+        telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
+        telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
+        telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
+        telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
+        telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
+        telemetry.addData("Analysis", pipeline.getAnalysis());
+        telemetry.addData("Max", pipeline.getMax());
+        telemetry.update();
+        //linearOpMode.sleep(50);
+
+        /*
+         * NOTE: stopping the stream from the camera early (before the end of the OpMode
+         * when it will be automatically stopped for you) *IS* supported. The "if" statement
+         * below will stop streaming from the camera when the "A" button on gamepad 1 is pressed.
+         */
+        //if(gamepad1.a)
+        //{
+        /*
+         * IMPORTANT NOTE: calling stopStreaming() will indeed stop the stream of images
+         * from the camera (and, by extension, stop calling your vision pipeline). HOWEVER,
+         * if the reason you wish to stop the stream early is to switch use of the camera
+         * over to, say, Vuforia or TFOD, you will also need to call closeCameraDevice()
+         * (commented out below), because according to the Android Camera API documentation:
+         *         "Your application should only have one Camera object active at a time for
+         *          a particular hardware camera."
+         *
+         * NB: calling closeCameraDevice() will internally call stopStreaming() if applicable,
+         * but it doesn't hurt to call it anyway, if for no other reason than clarity.
+         *
+         * NB2: if you are stopping the camera stream to simply save some processing power
+         * (or battery power) for a short while when you do not need your vision pipeline,
+         * it is recommended to NOT call closeCameraDevice() as you will then need to re-open
+         * it the next time you wish to activate your vision pipeline, which can take a bit of
+         * time. Of course, this comment is irrelevant in light of the use case described in
+         * the above "important note".
+         */
+        //    webcam.stopStreaming();
+        //webcam.closeCameraDevice();
+        //}
+
+
+        /*
+         * For the purposes of this sample, throttle ourselves to 10Hz loop to avoid burning
+         * excess CPU cycles for no reason. (By default, telemetry is only sent to the DS at 4Hz
+         * anyway). Of course in a real OpMode you will likely not want to do this.
+         */
+        //linearOpMode.sleep(100);
     }
 
     public static class SamplePipeline extends OpenCvPipeline
@@ -172,7 +208,7 @@ public class OpenCvMarker extends LinearOpMode
         static final Scalar BROWN = new Scalar(255, 1, 50);
         static final Scalar YELLOW = new Scalar(255, 255, 51);
         static final Scalar RED = new Scalar(255, 0, 0);
-        private volatile SkystonePosition position = SkystonePosition.YELLOW;
+        private volatile openCV33.SamplePipeline.SkystonePosition position = openCV33.SamplePipeline.SkystonePosition.YELLOW;
         int cNum =0;
         int cNum1 =1;
         int cNum2 =2;
@@ -190,12 +226,12 @@ public class OpenCvMarker extends LinearOpMode
         Mat outPut = new Mat();
 
         int avg2, avg3, avg4;
-        static final int REGION_WIDTH = 45;
+        static final int REGION_WIDTH = 55;
         static final int REGION_HEIGHT = 75;
 
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(495,153);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(495,153);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(495,153);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(222,153);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(222,153);
+        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(222,153);
 
 
 
@@ -288,7 +324,7 @@ public class OpenCvMarker extends LinearOpMode
 
             if( max == avg2) // Was it from region 2?
             {
-                position =SkystonePosition.BLUE; // Record our analysis
+                position = openCV33.SamplePipeline.SkystonePosition.BLUE; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
@@ -299,7 +335,7 @@ public class OpenCvMarker extends LinearOpMode
             }
             else if( max == avg3 ) // Was it from region 3?
             {
-                position = SkystonePosition.RED; // Record our analysis
+                position = openCV33.SamplePipeline.SkystonePosition.RED; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
@@ -310,7 +346,7 @@ public class OpenCvMarker extends LinearOpMode
             }
             else if (max == avg4) // Was it from region 2?
             {
-              position = SkystonePosition.YELLOW; // Record our analysis
+                position = openCV33.SamplePipeline.SkystonePosition.YELLOW; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
@@ -324,7 +360,7 @@ public class OpenCvMarker extends LinearOpMode
             return input;
         }
 
-        public SkystonePosition getAnalysis()
+        public openCV33.SamplePipeline.SkystonePosition getAnalysis()
         {
             return position;
         }
@@ -337,5 +373,4 @@ public class OpenCvMarker extends LinearOpMode
         }
 
     }
-
 }
