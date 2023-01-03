@@ -74,7 +74,7 @@ public class LeftRed extends LinearOpMode {
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((pivotAtStack.end()))
-                .lineToLinearHeading(new Pose2d(64, -13, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(63.75, -13, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))

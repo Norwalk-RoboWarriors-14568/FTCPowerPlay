@@ -74,12 +74,12 @@ public class RightBlue extends LinearOpMode {
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((pivotAtStack.end()))
-                .lineToLinearHeading(new Pose2d(64, 13, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(63.75, 13, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))
                 .lineToLinearHeading(new Pose2d(56, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(58.5, -25.5, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(59, -25.5, Math.toRadians(-90)))
                 .build();
 
 
@@ -98,7 +98,7 @@ public class RightBlue extends LinearOpMode {
                 .build();
         TrajectorySequence toStack2 = drive.trajectorySequenceBuilder((toMediumPole.end()))
                 .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(57.5, -26, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(58.5, -26, Math.toRadians(-90)))
                 .build();
         drive.ConeGrabber.setPosition(0);
 
