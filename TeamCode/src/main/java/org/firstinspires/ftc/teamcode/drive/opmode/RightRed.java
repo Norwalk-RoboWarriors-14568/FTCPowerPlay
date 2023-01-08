@@ -96,13 +96,13 @@ public class RightRed extends LinearOpMode {
 
         TrajectorySequence toFirstJunction = drive.trajectorySequenceBuilder(startingStrafe.end())
                 .lineToLinearHeading(new Pose2d(48, 20, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(55, 9, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(54.5, 9, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toFirstJunction.end()))
                 .lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(53.5, -28.5, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(53.5, -27.25, Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((toStack.end()))
@@ -116,7 +116,7 @@ public class RightRed extends LinearOpMode {
         TrajectorySequence toStackTwo = drive.trajectorySequenceBuilder((toBigPole.end()))
                 //.lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(53.5, -28.9, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(53.5, -27, Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence toBigPoleTwo = drive.trajectorySequenceBuilder((toStackTwo.end()))
@@ -126,7 +126,7 @@ public class RightRed extends LinearOpMode {
                 .build();
 
         TrajectorySequence toSmallPole = drive.trajectorySequenceBuilder(toStack.end())
-                .lineToLinearHeading(new Pose2d(47.25, -16, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(47.6, -14, Math.toRadians(180)))
                 .build();
 
         TrajectorySequence Park = drive.trajectorySequenceBuilder(toSmallPole.end())

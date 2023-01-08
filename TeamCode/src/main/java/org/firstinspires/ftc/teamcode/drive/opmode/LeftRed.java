@@ -65,7 +65,7 @@ public class LeftRed extends LinearOpMode {
                 .build();
 
         TrajectorySequence getFirstCone = drive.trajectorySequenceBuilder(turnAndStrafe.end())
-                .lineToLinearHeading(new Pose2d(58, 6.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(58, 5.5, Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(58, 29, Math.toRadians(90)))//Stack
                 .build();
 
@@ -79,7 +79,7 @@ public class LeftRed extends LinearOpMode {
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))
                 .lineToLinearHeading(new Pose2d(56, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 25.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(58, 24.75, Math.toRadians(90)))
                 .build();
 
 
@@ -97,8 +97,10 @@ public class LeftRed extends LinearOpMode {
 
                 .build();
         TrajectorySequence toStack2 = drive.trajectorySequenceBuilder((toMediumPole.end()))
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(56.5, 26, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(58, 13.25, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(56.5, 24, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(56.5, 27, Math.toRadians(90)))
+
                 .build();
         drive.ConeGrabber.setPosition(0);
 
@@ -153,8 +155,10 @@ public class LeftRed extends LinearOpMode {
                 case START:
                     armHeight(1, lowPoleTicks);
                     if (!drive.isBusy()) {
-                        armHeight(1, lowPoleTicks - (int)(3.5 * 84.5));
+                        armHeight(1, lowPoleTicks - (int)(2 * 84.5));
                         drive.ConeGrabber.setPosition(0.4);//drop cone
+                        armHeight(1, lowPoleTicks);
+
                         drive.followTrajectorySequenceAsync(getFirstCone);
                         waitTimer.reset();
                         currentState = State.WAIT_1;
@@ -167,24 +171,33 @@ public class LeftRed extends LinearOpMode {
                             currentState = State.PARK;
                         } else {
                             if (conesOffStack == 2) {
+                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
+
                                 drive.followTrajectorySequenceAsync(toStack2);
 
                             } else if (conesOffStack == 1) {
+                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
+
                                 drive.followTrajectorySequenceAsync(toStack);
                             }
+                            waitTimer.reset();
+
                             currentState = State.GRAB_CONE_FROM_STACK;
                         }
                     }
 
                     break;
                 case GRAB_CONE_FROM_STACK:
-                    armHeight(-1,topOfStack);
-                    if (!drive.isBusy()) {
-                        drive.ConeGrabber.setPosition(0);
-                        conesOffStack++;
-                        currentState = State.WAIT_2;
+                    if (waitTimer.seconds()>= waitTime) {
 
-                        waitTimer.reset();
+                        armHeight(-1, topOfStack);
+                        if (!drive.isBusy()) {
+                            drive.ConeGrabber.setPosition(0);
+                            conesOffStack++;
+                            currentState = State.WAIT_2;
+
+                            waitTimer.reset();
+                        }
                     }
                     break;
                 case WAIT_2:

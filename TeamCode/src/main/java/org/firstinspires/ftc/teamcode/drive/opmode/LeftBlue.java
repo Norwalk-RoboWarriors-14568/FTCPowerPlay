@@ -24,7 +24,7 @@ public class LeftBlue extends LinearOpMode {
     final double ARMTPI = 84.5;
     int highPoleTicks =(int) (ARMTPI* 35);;
     int topOfStack = (int) (ARMTPI* 5.25 ) ;;
-    double waitTime = 0.3;
+    double waitTime = 0.2;
     int stackConesGrabbed = 0;
     enum State {
         START,
@@ -41,9 +41,9 @@ public class LeftBlue extends LinearOpMode {
     State currentState = State.START;
     Pose2d startPose = new Pose2d(0, 0.5, 0);
 
-    Pose2d Yellow = new Pose2d(50,-19, Math.toRadians(90));
+    Pose2d Yellow = new Pose2d(50,-25, Math.toRadians(90));
     Pose2d Blue = new Pose2d(52,1,Math.toRadians(90));
-    Pose2d Red = new Pose2d(52,32,Math.toRadians(90));
+    Pose2d Red = new Pose2d(52,30,Math.toRadians(180));
     Pose2d park;
 
     @Override
@@ -96,7 +96,7 @@ public class LeftBlue extends LinearOpMode {
 
         TrajectorySequence toFirstJunction = drive.trajectorySequenceBuilder(startingStrafe.end())
                 .lineToLinearHeading(new Pose2d(48, -20, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(55.5, -8, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(57, -8, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toFirstJunction.end()))
@@ -116,7 +116,7 @@ public class LeftBlue extends LinearOpMode {
         TrajectorySequence toStackTwo = drive.trajectorySequenceBuilder((toBigPole.end()))
                 //.lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(53.5, 28, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(53.5, 26.5, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence toBigPoleTwo = drive.trajectorySequenceBuilder((toStackTwo.end()))
@@ -125,8 +125,8 @@ public class LeftBlue extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(55.75, -10, Math.toRadians(0)))
                 .build();
         TrajectorySequence toSmallPole = drive.trajectorySequenceBuilder(toStack.end())
-                .lineToLinearHeading(new Pose2d(50, 14.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(47.25, 14.5, Math.toRadians(180)))
+                //.lineToLinearHeading(new Pose2d(54, 14.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(48, 12.5, Math.toRadians(180)))
                 .build();
         TrajectorySequence Park = drive.trajectorySequenceBuilder(toSmallPole.end())
                 //.lineToLinearHeading(new Pose2d(52.5, -11, Math.toRadians(0)))
@@ -150,7 +150,7 @@ public class LeftBlue extends LinearOpMode {
                 case FIRST_JUNCTION:
                     armHeight(1, highPoleTicks);
                     if (!drive.isBusy()) {
-                        armHeight(1, highPoleTicks -(int)(84.5 *3.5));
+                       // armHeight(1, highPoleTicks -(int)(84.5 *3.5));
 
                         drive.ConeGrabber.setPosition(0.4);
                         if (stackConesGrabbed <=2) {
@@ -189,7 +189,7 @@ public class LeftBlue extends LinearOpMode {
                     }
                     break;
                 case SMALL_POLE:
-                    armHeight(1, (int)84.5*14);
+                    armHeight(1, (int)84.5*16);
                     if(!drive.isBusy()){
                         drive.followTrajectorySequenceAsync(toSmallPole);
                         currentState = State.DROP_CONE;
@@ -204,7 +204,7 @@ public class LeftBlue extends LinearOpMode {
                     break;
                 case DROP_CONE:
                     if (!drive.isBusy()) {
-                        armHeight(-1, drive.motorLift.getCurrentPosition() -(int)(84.5 *3.5));
+                        // armHeight(-1, drive.motorLift.getCurrentPosition() -(int)(84.5 *3.5));
                         drive.ConeGrabber.setPosition(0.4);
                         waitTimer.reset();
                         currentState = State.WAIT_1;
