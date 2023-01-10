@@ -96,12 +96,12 @@ public class LeftBlue extends LinearOpMode {
 
         TrajectorySequence toFirstJunction = drive.trajectorySequenceBuilder(startingStrafe.end())
                 .lineToLinearHeading(new Pose2d(48, -20, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(57, -8, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(56, -10, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toFirstJunction.end()))
                 .lineToLinearHeading(new Pose2d(52.5, -11, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(53, 0, Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(53, 28.4, Math.toRadians(90)))
                 .build();
 
@@ -110,13 +110,13 @@ public class LeftBlue extends LinearOpMode {
                 //.lineToLinearHeading(new Pose2d(52, 10, Math.toRadians(0)))
                 //.lineToLinearHeading(new Pose2d(55.75, 10, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, -8, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(58.5, -10, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStackTwo = drive.trajectorySequenceBuilder((toBigPole.end()))
-                //.lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(53.5, 26.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(52.5, -11, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(53, 0, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(53, 28.4, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence toBigPoleTwo = drive.trajectorySequenceBuilder((toStackTwo.end()))
@@ -156,7 +156,11 @@ public class LeftBlue extends LinearOpMode {
                         if (stackConesGrabbed <=2) {
                             waitTimer.reset();
                             currentState = State.WAIT_1;
-                            drive.followTrajectorySequenceAsync(toStack);
+                            if (stackConesGrabbed==0) {
+                                drive.followTrajectorySequenceAsync(toStack);
+                            } else {
+                                drive.followTrajectorySequenceAsync(toStackTwo);
+                            }
                         }
                     }
                     break;

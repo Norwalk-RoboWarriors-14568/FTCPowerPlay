@@ -66,7 +66,7 @@ public class LeftRed extends LinearOpMode {
 
         TrajectorySequence getFirstCone = drive.trajectorySequenceBuilder(turnAndStrafe.end())
                 .lineToLinearHeading(new Pose2d(58, 5.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 29, Math.toRadians(90)))//Stack
+                .lineToLinearHeading(new Pose2d(58, 29.75, Math.toRadians(90)))//Stack
                 .build();
 
         TrajectorySequence pivotAtStack = drive.trajectorySequenceBuilder(getFirstCone.end())
@@ -74,26 +74,26 @@ public class LeftRed extends LinearOpMode {
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((pivotAtStack.end()))
-                .lineToLinearHeading(new Pose2d(63.75, -13, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(63.75, -12.25, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))
                 .lineToLinearHeading(new Pose2d(56, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 24.75, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(58, 26, Math.toRadians(90)))
                 .build();
 
 
         TrajectorySequence toMediumPole = drive.trajectorySequenceBuilder((toStack.end()))
                 //.lineToLinearHeading(new Pose2d(54, 21, Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(54.25, -17, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(55, -15, Math.toRadians(180)))
 
                 .build();
 
         TrajectorySequence toFarPole = drive.trajectorySequenceBuilder((toStack.end()))
                 //.lineToLinearHeading(new Pose2d(54, 21, Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(54, -43.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(55, -41.5, Math.toRadians(180)))
 
                 .build();
         TrajectorySequence toStack2 = drive.trajectorySequenceBuilder((toMediumPole.end()))
