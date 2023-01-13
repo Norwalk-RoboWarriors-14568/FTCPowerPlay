@@ -57,8 +57,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-   public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3, 0, 0);//4
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);//3
+   public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);//3
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);//4
     //public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0);//8
     //public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);//5
    // public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);//8
@@ -160,7 +160,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         //setLocalizer(new ThreeTrackingWheelLocalizer(HardwareMap));
-
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }
 

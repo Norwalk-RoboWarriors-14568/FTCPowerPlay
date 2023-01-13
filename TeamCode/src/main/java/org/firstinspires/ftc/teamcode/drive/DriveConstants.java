@@ -33,8 +33,8 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-    public static final boolean RUN_USING_ENCODER = true ;
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0, 7.75, 12.78319122535772);//13.89, 47
+    public static final boolean RUN_USING_ENCODER = false ;
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, 0);//13.89, 47
             //getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
@@ -55,9 +55,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);//1.0
-    public static double kA = 0.00;
-    public static double kStatic = 0.00;
+    public static double kV =1 / rpmToVelocity(MAX_RPM); //0.019;1 / rpmToVelocity(MAX_RPM);//1.0
+    public static double kA = 0.01;
+    public static double kStatic = 0.0022;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
