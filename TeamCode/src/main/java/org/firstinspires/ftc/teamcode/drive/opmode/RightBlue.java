@@ -3,7 +3,12 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,6 +17,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
+
+import java.util.Arrays;
 
 @Autonomous(group = "advanced")
 public class RightBlue extends LinearOpMode {
@@ -61,35 +69,40 @@ public class RightBlue extends LinearOpMode {
         TrajectorySequence turnAndStrafe = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(10,0,Math.toRadians(-90)))
 
-                .lineToLinearHeading(new Pose2d(45,-7,Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(40,-7.5,Math.toRadians(-90)))//45,-7
                 .build();
 
         TrajectorySequence getFirstCone = drive.trajectorySequenceBuilder(turnAndStrafe.end())
-                .lineToLinearHeading(new Pose2d(58, -6.5, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(59, -27.25, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(52, -6.5, Math.toRadians(-90)))
+               // .lineToLinearHeading(new Pose2d(52, -26, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(52, -29, Math.toRadians(-90)))//Stack
                 .build();
 
         TrajectorySequence pivotAtStack = drive.trajectorySequenceBuilder(getFirstCone.end())
-                .lineToLinearHeading(new Pose2d(56, -20, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(52, 16, Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((pivotAtStack.end()))
-                .lineToLinearHeading(new Pose2d(62.5, 15.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(55, 7.75, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))
-                .lineToLinearHeading(new Pose2d(58, 14.5, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(58, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(59, -24, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(52, 16, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(52, -26, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(52, -25, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(52, -29, Math.toRadians(-90)))//Stack
+
+
                 .build();
 
 
         TrajectorySequence toMediumPole = drive.trajectorySequenceBuilder((toStack.end()))
                 //.lineToLinearHeading(new Pose2d(54, 21, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(53.75, 17.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(50, -15, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(48, 6, Math.toRadians(180)))
 
                 .build();
+
 
         TrajectorySequence toFarPole = drive.trajectorySequenceBuilder((toStack.end()))
                 //.lineToLinearHeading(new Pose2d(54, 21, Math.toRadians(90)))
@@ -98,8 +111,10 @@ public class RightBlue extends LinearOpMode {
 
                 .build();
         TrajectorySequence toStack2 = drive.trajectorySequenceBuilder((toMediumPole.end()))
-                .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(58.5, -22.75, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(50, -15, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(52, -26, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(52, -25, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(52, -29, Math.toRadians(-90)))//Stack
                 .build();
         drive.ConeGrabber.setPosition(0);
 
@@ -178,6 +193,9 @@ public class RightBlue extends LinearOpMode {
                             } else if (conesOffStack == 1) {
                                 armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
                                 drive.followTrajectorySequenceAsync(toStack);
+
+                               // drive.followTrajectorySequenceAsync(toStack0);
+
                             }
                             waitTimer.reset();
                             currentState = State.GRAB_CONE_FROM_STACK;
@@ -188,6 +206,8 @@ public class RightBlue extends LinearOpMode {
                 case GRAB_CONE_FROM_STACK:
 
                     if (waitTimer.seconds()>= waitTime){
+
+
                         armHeight(-1,topOfStack);
                         if (!drive.isBusy()) {
                             drive.ConeGrabber.setPosition(0);
@@ -214,12 +234,14 @@ public class RightBlue extends LinearOpMode {
                     break;
                 case  PIVOT_AT_STACK:
                     if (!drive.isBusy()) {
+                        armHeight(1, highPoleTicks);
+
                         drive.followTrajectorySequence(pivotAtStack);
                         currentState = State.TO_BIG_POLE;
                     }
                     break;
                 case TO_BIG_POLE:
-                    armHeight(1, highPoleTicks);
+
                     if (!drive.isBusy()) {
                         drive.followTrajectorySequenceAsync(toBigPole);
                         waitTimer.reset();

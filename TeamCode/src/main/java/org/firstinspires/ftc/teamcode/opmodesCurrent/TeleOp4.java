@@ -120,7 +120,7 @@ public class TeleOp4 extends OpMode {
             ConeGrabber.setPosition(0);
 
         }else if (gamepad2.right_bumper){
-            ConeGrabber.setPosition(0.4);
+            ConeGrabber.setPosition(0.55);
         }
         /*
         if(gamepad1.dpad_up){
