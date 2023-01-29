@@ -21,9 +21,6 @@ package org.firstinspires.ftc.teamcode.drive.opmode;/*
  */
 
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -37,8 +34,12 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-//@TeleOp(name = "OpenCvRed")
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+//@TeleOp(name = "OpenCvRed")
 public class OpenColorV_4
 {
 
@@ -200,15 +201,15 @@ public class OpenColorV_4
     {
         public enum SkystonePosition
         {
-            RED,
-            BLUE,
-            YELLOW
+            LEFT,
+            RIGHT,
+            MID
         }
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar BROWN = new Scalar(255, 1, 50);
         static final Scalar YELLOW = new Scalar(255, 255, 51);
         static final Scalar RED = new Scalar(255, 0, 0);
-        private volatile OpenColorV_4.SamplePipeline.SkystonePosition position = OpenColorV_4.SamplePipeline.SkystonePosition.YELLOW;
+        private volatile OpenColorV_4.SamplePipeline.SkystonePosition position = OpenColorV_4.SamplePipeline.SkystonePosition.MID;
         int cNum =0;
         int cNum1 =1;
         int cNum2 =2;
@@ -226,12 +227,12 @@ public class OpenColorV_4
         Mat outPut = new Mat();
 
         int avg2, avg3, avg4;
-        static final int REGION_WIDTH = 42;
-        static final int REGION_HEIGHT = 77;
+        static final int REGION_WIDTH = 200;
+        static final int REGION_HEIGHT2 = 170;
 
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(209,155);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(209,155);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(209,155);
+        static final Point REGION12_TOPLEFT_ANCHOR_POINT = new Point(250,300);
+        static final Point REGION22_TOPLEFT_ANCHOR_POINT = new Point(350,300);
+        static final Point REGION32_TOPLEFT_ANCHOR_POINT = new Point(440,300);
 
 
 
@@ -254,36 +255,33 @@ public class OpenColorV_4
             Core.extractChannel(YCrCb, Cr, cNum1);
         }
 
-        Point region1_pointA = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x,
-                REGION1_TOPLEFT_ANCHOR_POINT.y);
-        Point region1_pointB = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region2_pointA = new Point(
-                REGION2_TOPLEFT_ANCHOR_POINT.x,
-                REGION2_TOPLEFT_ANCHOR_POINT.y);
-        Point region2_pointB = new Point(
-                REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region3_pointA = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x,
-                REGION3_TOPLEFT_ANCHOR_POINT.y);
-        Point region3_pointB = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-
+        Point region12_pointA = new Point(
+                REGION12_TOPLEFT_ANCHOR_POINT.x,
+                REGION12_TOPLEFT_ANCHOR_POINT.y);
+        Point region12_pointB = new Point(
+                REGION12_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION12_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT2);
+        Point region22_pointA = new Point(
+                REGION22_TOPLEFT_ANCHOR_POINT.x,
+                REGION22_TOPLEFT_ANCHOR_POINT.y);
+        Point region22_pointB = new Point(
+                REGION22_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION22_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT2);
+        Point region32_pointA = new Point(
+                REGION32_TOPLEFT_ANCHOR_POINT.x,
+                REGION32_TOPLEFT_ANCHOR_POINT.y);
+        Point region32_pointB = new Point(
+                REGION32_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION32_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT2);
 
 
         @Override
         public void init(Mat firstFrame)
         {
-            inputToCb(firstFrame);
-            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
             inputToCbInvert(firstFrame);
-            region4_Cb = outPut.submat(new Rect(region1_pointA, region1_pointB));
-            inputToCr(firstFrame);
-            region3_Cb = Cr.submat(new Rect(region3_pointA, region3_pointB));
+            region2_Cb = outPut.submat(new Rect(region22_pointA, region22_pointB));
+            region4_Cb = outPut.submat(new Rect(region12_pointA, region12_pointB));
+            region3_Cb = outPut.submat(new Rect(region32_pointA, region32_pointB));
 
         }
         @Override
@@ -300,20 +298,20 @@ public class OpenColorV_4
 
             Imgproc.rectangle(
                     input, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
+                    region12_pointA, // First point which defines the rectangle
+                    region12_pointB, // Second point which defines the rectangle
                     BROWN, // The color the rectangle is drawn in
                     5); // Thickness of the rectangle lines
             Imgproc.rectangle(
                     input, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
+                    region22_pointA, // First point which defines the rectangle
+                    region22_pointB, // Second point which defines the rectangle
                     BROWN, // The color the rectangle is drawn in
                     5); // Thickness of the rectangle lines
             Imgproc.rectangle(
                     input, // Buffer to draw on
-                    region3_pointA, // First point which defines the rectangle
-                    region3_pointB, // Second point which defines the rectangle
+                    region32_pointA, // First point which defines the rectangle
+                    region32_pointB, // Second point which defines the rectangle
                     BROWN, // The color the rectangle is drawn in
                     5); // Thickness of the rectangle lines
 
@@ -324,34 +322,34 @@ public class OpenColorV_4
 
             if( max == avg2) // Was it from region 2?
             {
-                position = OpenColorV_4.SamplePipeline.SkystonePosition.BLUE; // Record our analysis
+                position = OpenColorV_4.SamplePipeline.SkystonePosition.MID; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        BLUE, // The color the rectangle is drawn in
+                        region22_pointA, // First point which defines the rectangle
+                        region22_pointB, // Second point which defines the rectangle
+                        YELLOW, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
             else if( max == avg3 ) // Was it from region 3?
             {
-                position = OpenColorV_4.SamplePipeline.SkystonePosition.RED; // Record our analysis
+                position = OpenColorV_4.SamplePipeline.SkystonePosition.RIGHT; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
-                        region3_pointA, // First point which defines the rectangle
-                        region3_pointB, // Second point which defines the rectangle
-                        RED, // The color the rectangle is drawn in
+                        region32_pointA, // First point which defines the rectangle
+                        region32_pointB, // Second point which defines the rectangle
+                        YELLOW, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
             else if (max == avg4) // Was it from region 2?
             {
-                position = OpenColorV_4.SamplePipeline.SkystonePosition.YELLOW; // Record our analysis
+                position = OpenColorV_4.SamplePipeline.SkystonePosition.LEFT; // Record our analysis
 
                 Imgproc.rectangle(
                         input, // Buffer to draw on
-                        region1_pointA, // First point which defines the rectangle
-                        region1_pointB, // Second point which defines the rectangle
+                        region12_pointA, // First point which defines the rectangle
+                        region12_pointB, // Second point which defines the rectangle
                         YELLOW, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }

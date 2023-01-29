@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(group = "advanced")
 public class LeftBlue extends LinearOpMode {
     SampleMecanumDrive drive;
-    openCV33 openCv;
+    OpenColorV_4 openCv;
     ElapsedTime waitTimer = new ElapsedTime();
     ElapsedTime matchTimer = new ElapsedTime();
     final double ARMTPI = 84.5;
@@ -51,7 +51,7 @@ public class LeftBlue extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setPoseEstimate(startPose);
-        openCv = new openCV33();
+        openCv = new OpenColorV_4();
         openCv.OpenCv(hardwareMap, telemetry);
 
         drive.motorLift.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -60,9 +60,9 @@ public class LeftBlue extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested())
         {
-            telemetry.addData("Realtime analysis : ", openCv.pipeline.getAnalysis());
-            telemetry.update();
-            sleep(50);
+            //telemetry.addData("Realtime analysis : ", openCv.pipeline.getAnalysis());
+           // telemetry.update();
+           // sleep(10);
         }
         int snapshotAnalysis = openCv.analysis();
 
@@ -150,8 +150,8 @@ public class LeftBlue extends LinearOpMode {
                 case FIRST_JUNCTION:
                     armHeight(1, highPoleTicks);
                     if (!drive.isBusy()) {
-                       // armHeight(1, highPoleTicks -(int)(84.5 *3.5));
-
+                       // armHeight(1, highPoleTicks -(int)(84.5 *3.5))
+                        sleep(10000);
                         drive.ConeGrabber.setPosition(0.4);
                         if (stackConesGrabbed <=2) {
                             waitTimer.reset();
@@ -236,6 +236,7 @@ public class LeftBlue extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("Realtime analysis  : ", openCv.pipeline.getAnalysis());
             telemetry.update();
         }
     }

@@ -10,6 +10,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import static java.lang.Math.abs;
 
+import org.firstinspires.ftc.teamcode.drive.opmode.OpenColorV_4;
+import org.firstinspires.ftc.teamcode.drive.opmode.openCV33;
+
 //import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
@@ -21,6 +24,7 @@ import static java.lang.Math.abs;
 
 
 public class TeleOp4 extends OpMode {
+    OpenColorV_4 openCv;
     private DcMotor motorLeft, motorLeft2,
             motorRight, motorRight2, motorLift, motorFlip;
 

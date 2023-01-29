@@ -66,7 +66,7 @@ public class RightBlue extends LinearOpMode {
 
         TrajectorySequence getFirstCone = drive.trajectorySequenceBuilder(turnAndStrafe.end())
                 .lineToLinearHeading(new Pose2d(58, -6.5, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(59, -27.25, Math.toRadians(-90)))//Stack
+                .lineToLinearHeading(new Pose2d(59, -28, Math.toRadians(-90)))//Stack
                 .build();
 
         TrajectorySequence pivotAtStack = drive.trajectorySequenceBuilder(getFirstCone.end())
@@ -74,13 +74,13 @@ public class RightBlue extends LinearOpMode {
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((pivotAtStack.end()))
-                .lineToLinearHeading(new Pose2d(62.5, 15.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(62, 14.5, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))
                 .lineToLinearHeading(new Pose2d(58, 14.5, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(58, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(59, -24, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(59, -25, Math.toRadians(-90)))
                 .build();
 
 
@@ -99,7 +99,7 @@ public class RightBlue extends LinearOpMode {
                 .build();
         TrajectorySequence toStack2 = drive.trajectorySequenceBuilder((toMediumPole.end()))
                 .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(58.5, -22.75, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(58.5, -23.25, Math.toRadians(-90)))
                 .build();
         drive.ConeGrabber.setPosition(0);
 
@@ -172,11 +172,11 @@ public class RightBlue extends LinearOpMode {
                             currentState = State.PARK;
                         } else {
                             if (conesOffStack == 2) {
-                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
+                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 5.5));
                                     drive.followTrajectorySequenceAsync(toStack2);
 
                             } else if (conesOffStack == 1) {
-                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
+                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 5.5));
                                 drive.followTrajectorySequenceAsync(toStack);
                             }
                             waitTimer.reset();
