@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(group = "advanced")
-public class BlueRightin4k extends LinearOpMode {
+public class RightBlueStraight extends LinearOpMode {
     SampleMecanumDrive drive;
     OpenColorV_2 openCv;
     Pose2d RED = new Pose2d(52,20, Math.toRadians(-90));
@@ -85,7 +85,7 @@ public class BlueRightin4k extends LinearOpMode {
 
                 .build();
         TrajectorySequence toMediumPole = drive.trajectorySequenceBuilder(returnToStack.end())
-                .lineToLinearHeading(new Pose2d(52,16,Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(52,18,Math.toRadians(-90)))
                // .lineToLinearHeading(new Pose2d(52,19,Math.toRadians(-135)))
                 .lineToLinearHeading(new Pose2d(47,12,Math.toRadians(-135)))
                         .build();

@@ -14,19 +14,19 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 //@Autonomous(group = "advanced")
-public class LeftRed extends LinearOpMode {
+public class RightBlueStrafe extends LinearOpMode {
     SampleMecanumDrive drive;
-    openCV33 openCv;
-    Pose2d YELLOW = new Pose2d(58,-28, Math.toRadians(90));
-    Pose2d BLUE = new Pose2d(58,-1,Math.toRadians(180));
-    Pose2d RED = new Pose2d(58, 24.75, Math.toRadians(180));
+    OpenColorV_2 openCv;
+    Pose2d RED = new Pose2d(58,28, Math.toRadians(-90));
+    Pose2d BLUE = new Pose2d(58,8,Math.toRadians(180));
+    Pose2d YELLOW = new Pose2d(58, -24.75, Math.toRadians(180));
     Pose2d park = new Pose2d();
     final double ARMTPI = 84.5;
     int highPoleTicks =(int) (ARMTPI * 35);
     int lowPoleTicks =(int) (ARMTPI * 15);
     int topOfStack = (int) (ARMTPI * 5.25);
     int mediumPole =  (int) (ARMTPI * 25);
-    double waitTime = 0.3;
+    double waitTime = 0.4;
     int stackConesGrabbed = 0;
     ElapsedTime waitTimer = new ElapsedTime();
     ElapsedTime matchTimer = new ElapsedTime();
@@ -50,57 +50,56 @@ public class LeftRed extends LinearOpMode {
         PARK
     }
     State currentState = State.START;
-    Pose2d startPose = new Pose2d(0, 0.5, 0);
+    Pose2d startPose = new Pose2d(0, -1.5, 0);
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
-        openCv = new openCV33();
+        openCv = new OpenColorV_2();
         openCv.OpenCv(hardwareMap, telemetry);
         TrajectorySequence turnAndStrafe = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(10,0,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(10,0,Math.toRadians(-90)))
 
-                .lineToLinearHeading(new Pose2d(45,7.5,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(45,-7,Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence getFirstCone = drive.trajectorySequenceBuilder(turnAndStrafe.end())
-                .lineToLinearHeading(new Pose2d(58, 5.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 29.75, Math.toRadians(90)))//Stack
+                .lineToLinearHeading(new Pose2d(58, -6.5, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(59, -28, Math.toRadians(-90)))//Stack
                 .build();
 
         TrajectorySequence pivotAtStack = drive.trajectorySequenceBuilder(getFirstCone.end())
-                .lineToLinearHeading(new Pose2d(56, 21, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(56, -20, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((pivotAtStack.end()))
-                .lineToLinearHeading(new Pose2d(63.75, -12.25, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(62, 14.5, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toBigPole.end()))
-                .lineToLinearHeading(new Pose2d(56, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 26, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(58, 14.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(58, 0, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(59, -25, Math.toRadians(-90)))
                 .build();
 
 
         TrajectorySequence toMediumPole = drive.trajectorySequenceBuilder((toStack.end()))
                 //.lineToLinearHeading(new Pose2d(54, 21, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(55, -15, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(53.75, 17.5, Math.toRadians(180)))
 
                 .build();
 
         TrajectorySequence toFarPole = drive.trajectorySequenceBuilder((toStack.end()))
                 //.lineToLinearHeading(new Pose2d(54, 21, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(55, -41.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(54, 44.5, Math.toRadians(180)))
 
                 .build();
         TrajectorySequence toStack2 = drive.trajectorySequenceBuilder((toMediumPole.end()))
-                .lineToLinearHeading(new Pose2d(58, 13.25, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(56.5, 24, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(56.5, 27, Math.toRadians(90)))
-
+                .lineToLinearHeading(new Pose2d(58, -15, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(58.5, -23.25, Math.toRadians(-90)))
                 .build();
         drive.ConeGrabber.setPosition(0);
 
@@ -155,9 +154,10 @@ public class LeftRed extends LinearOpMode {
                 case START:
                     armHeight(1, lowPoleTicks);
                     if (!drive.isBusy()) {
-                        armHeight(1, lowPoleTicks - (int)(2 * 84.5));
+                        //armHeight(1, lowPoleTicks - (int)(1 * 84.5));
+
                         drive.ConeGrabber.setPosition(0.4);//drop cone
-                        armHeight(1, lowPoleTicks);
+                       // armHeight(1, lowPoleTicks );
 
                         drive.followTrajectorySequenceAsync(getFirstCone);
                         waitTimer.reset();
@@ -167,30 +167,28 @@ public class LeftRed extends LinearOpMode {
                 case WAIT_1:
 
                     if(waitTimer.seconds()>= waitTime) {
+
                         if ( conesOffStack ==3){
                             currentState = State.PARK;
                         } else {
                             if (conesOffStack == 2) {
-                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
-
-                                drive.followTrajectorySequenceAsync(toStack2);
+                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 5.5));
+                                    drive.followTrajectorySequenceAsync(toStack2);
 
                             } else if (conesOffStack == 1) {
-                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 3.5));
-
+                                armHeight(1, drive.motorLift.getCurrentPosition() + (int)(84.5 * 5.5));
                                 drive.followTrajectorySequenceAsync(toStack);
                             }
                             waitTimer.reset();
-
                             currentState = State.GRAB_CONE_FROM_STACK;
                         }
                     }
 
                     break;
                 case GRAB_CONE_FROM_STACK:
-                    if (waitTimer.seconds()>= waitTime) {
 
-                        armHeight(-1, topOfStack);
+                    if (waitTimer.seconds()>= waitTime){
+                        armHeight(-1,topOfStack);
                         if (!drive.isBusy()) {
                             drive.ConeGrabber.setPosition(0);
                             conesOffStack++;
@@ -199,6 +197,7 @@ public class LeftRed extends LinearOpMode {
                             waitTimer.reset();
                         }
                     }
+
                     break;
                 case WAIT_2:
                     if(waitTimer.seconds()>= waitTime) {
@@ -249,6 +248,7 @@ public class LeftRed extends LinearOpMode {
                         waitTimer.reset();
                         currentState = State.WAIT_1;
                         armHeight(-1, drive.motorLift.getCurrentPosition() - (int)(84.5 * 3.5));
+
                         drive.ConeGrabber.setPosition(0.4);
 
 
