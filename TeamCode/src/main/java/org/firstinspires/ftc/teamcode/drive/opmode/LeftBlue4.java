@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(group = "advanced")
 public class LeftBlue4 extends LinearOpMode {
     SampleMecanumDrive drive;
-    OpenColorV_2 openCv;
+    openCV33 openCv;
     ElapsedTime waitTimer = new ElapsedTime();
     ElapsedTime matchTimer = new ElapsedTime();
     final double ARMTPI = 84.5;
@@ -42,7 +42,7 @@ public class LeftBlue4 extends LinearOpMode {
     Pose2d startPose = new Pose2d(0, 0, 0);
 
     Pose2d Yellow = new Pose2d(-49,0, Math.toRadians(0));
-    Pose2d Blue = new Pose2d(-28,0,Math.toRadians(0));
+    Pose2d Blue = new Pose2d(-26,0,Math.toRadians(0));
     Pose2d Red = new Pose2d(-4,0,Math.toRadians(0));
     Pose2d park;
 
@@ -51,13 +51,59 @@ public class LeftBlue4 extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setPoseEstimate(startPose);
-        openCv = new OpenColorV_2();
+        openCv = new openCV33();
         openCv.OpenCv(hardwareMap, telemetry);
 
         drive.motorLift.setDirection(DcMotorSimple.Direction.REVERSE);
         drive.motorLift.setMode(RUN_USING_ENCODER);
         drive.motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Trajectory startingStrafe = drive.trajectoryBuilder(startPose)
+                .lineToConstantHeading(new Vector2d(8,-24))
+                .build();
 
+        TrajectorySequence toFirstJunction = drive.trajectorySequenceBuilder(startingStrafe.end())
+                .lineToLinearHeading(new Pose2d(42.5, -22.5, Math.toRadians(90)))
+                // .lineToLinearHeading(new Pose2d(44, 18, Math.toRadians(-90)))
+                .build();
+
+        TrajectorySequence toStack = drive.trajectorySequenceBuilder((toFirstJunction.end()))
+                .lineToLinearHeading(new Pose2d(55, -23.5, Math.toRadians(90)))
+
+                // .lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
+                //.lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(55.5, 23, Math.toRadians(90)))
+                .build();
+
+        TrajectorySequence toBigPole = drive.trajectorySequenceBuilder(new Pose2d(0,0 ,0))
+                //.lineToLinearHeading(new Pose2d(52.5, 6, Math.toRadians(-90)))
+                //.lineToLinearHeading(new Pose2d(52, 10, Math.toRadians(0)))
+                //.lineToLinearHeading(new Pose2d(55.75, 10, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-48,-2,Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-42.75,3,Math.toRadians(45)))
+
+
+
+
+
+                .build();
+
+        TrajectorySequence toStackTwo = drive.trajectorySequenceBuilder((toBigPole.end()))
+                //.lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-48, -2, Math.toRadians(0)))
+
+                .lineToLinearHeading(new Pose2d(0, -1, Math.toRadians(0)))
+
+                .build();
+/*
+        TrajectorySequence toBigPoleTwo = drive.trajectorySequenceBuilder((toStackTwo.end()))
+                .lineToLinearHeading(new Pose2d(52.5, 6, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(52, 10, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(55.75, 10, Math.toRadians(0)))
+                .build();
+*/
+        TrajectorySequence toSmallPole = drive.trajectorySequenceBuilder(toStack.end())
+                .lineToLinearHeading(new Pose2d(47.1, -14.5, Math.toRadians(180)))
+                .build();
         while (!isStarted() && !isStopRequested())
         {
             telemetry.addData("Realtime analysis : ", openCv.pipeline.getAnalysis());
@@ -90,56 +136,10 @@ public class LeftBlue4 extends LinearOpMode {
             }
         }
 
-        Trajectory startingStrafe = drive.trajectoryBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(8,-24))
-                .build();
 
-        TrajectorySequence toFirstJunction = drive.trajectorySequenceBuilder(startingStrafe.end())
-                .lineToLinearHeading(new Pose2d(42.5, -22.5, Math.toRadians(90)))
-                // .lineToLinearHeading(new Pose2d(44, 18, Math.toRadians(-90)))
-                .build();
-
-        TrajectorySequence toStack = drive.trajectorySequenceBuilder((toFirstJunction.end()))
-                .lineToLinearHeading(new Pose2d(55, -23.5, Math.toRadians(90)))
-
-                // .lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
-                //.lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(53.5, 22, Math.toRadians(90)))
-                .build();
-
-        TrajectorySequence toBigPole = drive.trajectorySequenceBuilder(new Pose2d(0,0 ,0))
-                //.lineToLinearHeading(new Pose2d(52.5, 6, Math.toRadians(-90)))
-                //.lineToLinearHeading(new Pose2d(52, 10, Math.toRadians(0)))
-                //.lineToLinearHeading(new Pose2d(55.75, 10, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(-48,0,Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(-41.5,6,Math.toRadians(45)))
-
-
-
-
-
-                .build();
-
-        TrajectorySequence toStackTwo = drive.trajectorySequenceBuilder((toBigPole.end()))
-                //.lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(-48, 0, Math.toRadians(0)))
-
-                .lineToLinearHeading(new Pose2d(0, 0, Math.toRadians(0)))
-
-                .build();
-/*
-        TrajectorySequence toBigPoleTwo = drive.trajectorySequenceBuilder((toStackTwo.end()))
-                .lineToLinearHeading(new Pose2d(52.5, 6, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(52, 10, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(55.75, 10, Math.toRadians(0)))
-                .build();
-*/
-        TrajectorySequence toSmallPole = drive.trajectorySequenceBuilder(toStack.end())
-                .lineToLinearHeading(new Pose2d(47.1, -14.5, Math.toRadians(180)))
-                .build();
 
         TrajectorySequence Park = drive.trajectorySequenceBuilder(toBigPole.end())
-                .lineToLinearHeading(new Pose2d(-48, 0.1, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-48, -2, Math.toRadians(0)))
 
                 // .lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
                 .lineToLinearHeading(park)

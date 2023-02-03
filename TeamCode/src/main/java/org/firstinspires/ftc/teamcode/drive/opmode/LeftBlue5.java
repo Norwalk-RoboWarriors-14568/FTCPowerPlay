@@ -43,7 +43,7 @@ public class LeftBlue5 extends LinearOpMode {
 
     Pose2d Yellow = new Pose2d(50,-25, Math.toRadians(90));
     Pose2d Blue = new Pose2d(52,-3,Math.toRadians(90));
-    Pose2d Red = new Pose2d(52,30,Math.toRadians(180));
+    Pose2d Red = new Pose2d(52,28,Math.toRadians(180));
     Pose2d park;
 
     @Override
@@ -60,9 +60,9 @@ public class LeftBlue5 extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested())
         {
-            //telemetry.addData("Realtime analysis : ", openCv.pipeline.getAnalysis());
-           // telemetry.update();
-           // sleep(10);
+            telemetry.addData("Realtime analysis : ", openCv.pipeline.getAnalysis());
+           telemetry.update();
+            sleep(10);
         }
         int snapshotAnalysis = openCv.analysis();
 
@@ -102,7 +102,7 @@ public class LeftBlue5 extends LinearOpMode {
         TrajectorySequence toStack = drive.trajectorySequenceBuilder((toFirstJunction.end()))
                 .lineToLinearHeading(new Pose2d(52.5, -11, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(53, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(53, 28, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(53, 27.5, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder((toStack.end()))
@@ -116,7 +116,7 @@ public class LeftBlue5 extends LinearOpMode {
         TrajectorySequence toStackTwo = drive.trajectorySequenceBuilder((toBigPole.end()))
                 .lineToLinearHeading(new Pose2d(52.5, -10.5, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(53, 0, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(53.75, 27, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(53.75, 26.5, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence toBigPoleTwo = drive.trajectorySequenceBuilder((toStackTwo.end()))
@@ -131,6 +131,8 @@ public class LeftBlue5 extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(49.5, 12.5, Math.toRadians(180)))
                 .build();
         TrajectorySequence Park = drive.trajectorySequenceBuilder(toSmallPole.end())
+               // .lineToLinearHeading(new Pose2d(54, 6, Math.toRadians(90)))
+
                 //.lineToLinearHeading(new Pose2d(52.5, -11, Math.toRadians(0)))
                 .lineToLinearHeading(park)
                 .build();
