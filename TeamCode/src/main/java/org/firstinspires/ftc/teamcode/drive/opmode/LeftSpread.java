@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -10,11 +11,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group = "advanced")
-public class LeftRedStraight extends LinearOpMode {
+@Autonomous(group = "111")
+public class LeftSpread extends LinearOpMode {
     SampleMecanumDrive drive;
     openCV33 openCv;
     Pose2d YELLOW = new Pose2d(52,-20, Math.toRadians(90));
@@ -87,20 +89,24 @@ public class LeftRedStraight extends LinearOpMode {
         TrajectorySequence toMediumPole = drive.trajectorySequenceBuilder(returnToStack.end())
                 .lineToLinearHeading(new Pose2d(52,-18,Math.toRadians(90)))
                 // .lineToLinearHeading(new Pose2d(52,19,Math.toRadians(-135)))
-                .lineToLinearHeading(new Pose2d(45,-12,Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(46,-12,Math.toRadians(135)))
                 .build();
 
         TrajectorySequence getThirdCone = drive.trajectorySequenceBuilder(toMediumPole.end())
                 .lineToLinearHeading(new Pose2d(52,-19,Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(50,31,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(51,31,Math.toRadians(90)))
 
                 .build();
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder(getThirdCone.end())
+                //.lineToLinearHeading(new Pose2d(52,-18,Math.toRadians(90)))
+                ////.lineToLinearHeading(new Pose2d(52,19,Math.toRadians(-45)))
+                //.lineToLinearHeading(new Pose2d(56,-11, Math.toRadians(45)))
+                //.build();
+//medium
                 .lineToLinearHeading(new Pose2d(52,-18,Math.toRadians(90)))
-                //.lineToLinearHeading(new Pose2d(52,19,Math.toRadians(-45)))
-                .lineToLinearHeading(new Pose2d(56,-11, Math.toRadians(45)))
+                // .lineToLinearHeading(new Pose2d(52,19,Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(45,-12,Math.toRadians(135)))
                 .build();
-
 
         drive.ConeGrabber.setPosition(0);
 
@@ -118,6 +124,7 @@ public class LeftRedStraight extends LinearOpMode {
 
         telemetry.addData("Snapshot post-START analysis : ", snapshotAnalysis);
         telemetry.update();
+        drive.motorLift.setMode(STOP_AND_RESET_ENCODER);
 
         if (isStopRequested()) return;
 
@@ -140,8 +147,8 @@ public class LeftRedStraight extends LinearOpMode {
             }
         }
         drive.setPoseEstimate(startPose);
-        TrajectorySequence Park = drive.trajectorySequenceBuilder(toBigPole.end())
-                .lineToLinearHeading(new Pose2d(52,-18,Math.toRadians(90)))
+        TrajectorySequence Park = drive.trajectorySequenceBuilder(returnToStack.end())
+              //  .lineToLinearHeading(new Pose2d(52,-18,Math.toRadians(90)))
                 .lineToLinearHeading(park)
                 .build();
 
@@ -157,6 +164,8 @@ public class LeftRedStraight extends LinearOpMode {
                 case START:
                     armHeight(1, lowPoleTicks);
                     if (!drive.isBusy()) {
+                        GOTOPOLE(true);
+
                         //armHeight(1, lowPoleTicks - (int)(1 * 84.5));
 
                         drive.ConeGrabber.setPosition(0.4);//drop cone
@@ -213,7 +222,7 @@ public class LeftRedStraight extends LinearOpMode {
 
                             //  currentState = RightBlue.State.MEDIUM_POLE;
                         } else if (conesOffStack == 3) {
-                            currentState = State.TO_BIG_POLE;
+                            currentState = State.PARK;
                         }
                         armHeight(1, lowPoleTicks);
                         topOfStack -= (1.25 * 84.5);
@@ -234,7 +243,8 @@ public class LeftRedStraight extends LinearOpMode {
                     }
                     break;
                 case TO_BIG_POLE:
-                    armHeight(1, highPoleTicks);
+                    //armHeight(1, highPoleTicks);
+                    armHeight(1.0, (int) (27.0 * 84.5));
                     if (!drive.isBusy()) {
                         drive.followTrajectorySequenceAsync(toBigPole);
                         waitTimer.reset();
@@ -255,7 +265,7 @@ public class LeftRedStraight extends LinearOpMode {
 
                     if (!drive.isBusy()) {
                         //  drive.followTrajectorySequenceAsync(toFarPole);
-                        armHeight(1, highPoleTicks);
+                        armHeight(1, highPoleTicks +(int) (2 *84.5));
                         waitTimer.reset();
                         // currentState = RightBlue.State.DROP_CONE;
                     }
@@ -272,11 +282,15 @@ public class LeftRedStraight extends LinearOpMode {
                     if (!drive.isBusy()) {
                         waitTimer.reset();
                         if (conesOffStack == 3) {
+                            GOTOPOLE(true);
+
                             currentState = State.PARK;
 
                         }else {
+                            GOTOPOLE(true);
+
                             currentState = State.TO_STACK;
-                            armHeight(-1, drive.motorLift.getCurrentPosition() - (int) (84.5 * 3.5));
+                           // armHeight(-1, drive.motorLift.getCurrentPosition() - (int) (84.5 * 3.5));
 
                         }
                         drive.ConeGrabber.setPosition(0.4);
@@ -288,7 +302,7 @@ public class LeftRedStraight extends LinearOpMode {
                 case TO_STACK:
                     armHeight(-1, topOfStack);
                     if (!drive.isBusy()) {
-                        if (conesOffStack == 1) {
+                        if (conesOffStack <= 1) {
                             drive.followTrajectorySequenceAsync(returnToStack);
                         } else if (conesOffStack == 2) {
                             drive.followTrajectorySequenceAsync(getThirdCone);
@@ -300,13 +314,15 @@ public class LeftRedStraight extends LinearOpMode {
 
                 case PARK:
                     drive.followTrajectorySequenceAsync(Park);
-                    armHeight(-1.0, (int) (5 * 84.5));
+                    //armHeight(-1.0, 0);
 
                     currentState = State.IDLE;
                     break;
                 case IDLE:
 
                     if (!drive.isBusy()) {
+                        armHeight(-1.0,0);
+
                     }
                     break;
             }
@@ -324,7 +340,17 @@ public class LeftRedStraight extends LinearOpMode {
 
         }
     }
-
+    public void GOTOPOLE(boolean turnRight){
+        int i =0;
+        while (drive.distance.getDistance(DistanceUnit.INCH) > 10 &&  turnRight && i < 1){
+            drive.turn(Math.toRadians(-5));
+            i++;
+        }
+        while (drive.distance.getDistance(DistanceUnit.INCH) > 10 && !turnRight && i < 1){
+            drive.turn(Math.toRadians(5));
+            i++;
+        }
+    }
 
     public void armHeight(double armSpeed, int newArmTarget) {
         drive.motorLift.setTargetPosition(newArmTarget);

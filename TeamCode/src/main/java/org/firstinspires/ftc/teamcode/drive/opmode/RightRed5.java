@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -15,7 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group = "advanced")
+@Autonomous(group = "111")
 public class RightRed5 extends LinearOpMode {
     SampleMecanumDrive drive;
     OpenColorV_2 openCv;
@@ -68,6 +69,7 @@ public class RightRed5 extends LinearOpMode {
 
         telemetry.addData("Snapshot post-START analysis : ", snapshotAnalysis);
         telemetry.update();
+        drive.motorLift.setMode(STOP_AND_RESET_ENCODER);
 
         if (isStopRequested()) return;
 

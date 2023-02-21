@@ -104,7 +104,7 @@ public class TeleOp4 extends OpMode {
                 motorRight2.setPower((gamepad1.right_stick_y + -mecanumStrafe) / 2 );
             }
         } else if (!mecanumDriveMode) {
-                drive(gamepad1.left_stick_y*0.8, gamepad1.right_stick_y*0.8);
+                drive(gamepad1.left_stick_y*0.7, gamepad1.right_stick_y*0.7);
 
         }
 

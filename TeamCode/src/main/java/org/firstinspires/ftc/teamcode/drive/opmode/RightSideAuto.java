@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Autonomous(group = "auto")
+//@Autonomous(group = "auto")
 @Config
 public class RightSideAuto extends LinearOpMode {
     public static double MAX_VEL = 100;

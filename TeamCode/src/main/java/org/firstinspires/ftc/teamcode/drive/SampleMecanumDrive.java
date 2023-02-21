@@ -23,6 +23,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -78,6 +79,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public DcMotorEx leftFront, leftRear, rightRear, rightFront, motorLift, motorFlip;
     public Servo ConeGrabber, OdLift;
+    public DistanceSensor distance;
     private List<DcMotorEx> motors;
 
     private BNO055IMU imu;
@@ -132,7 +134,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         motorLift = hardwareMap.get(DcMotorEx.class, "lift");
         motorFlip = hardwareMap.get(DcMotorEx.class,"rightEncoder");
         ConeGrabber = hardwareMap.servo.get("ConeGrabber");
-
+        distance = hardwareMap.get(DistanceSensor.class, "Distance");
         OdLift = hardwareMap.servo.get("OdLift");
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 

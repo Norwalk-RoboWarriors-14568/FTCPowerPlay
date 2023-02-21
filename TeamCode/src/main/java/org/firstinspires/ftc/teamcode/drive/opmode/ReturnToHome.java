@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group = "advanced")
+//@Autonomous(group = "advanced")
 public class ReturnToHome extends LinearOpMode {
     SampleMecanumDrive drive;
     OpenColorV_2 openCv;

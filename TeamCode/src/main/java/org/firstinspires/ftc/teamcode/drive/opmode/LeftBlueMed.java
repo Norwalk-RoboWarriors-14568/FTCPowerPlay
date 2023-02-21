@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -15,8 +16,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group = "advanced")
-public class LeftBlue4 extends LinearOpMode {
+@Autonomous(group = "222")
+public class LeftBlueMed extends LinearOpMode {
     SampleMecanumDrive drive;
     openCV33 openCv;
     ElapsedTime waitTimer = new ElapsedTime();
@@ -62,7 +63,7 @@ public class LeftBlue4 extends LinearOpMode {
                 .build();
 
         TrajectorySequence toFirstJunction = drive.trajectorySequenceBuilder(startingStrafe.end())
-                .lineToLinearHeading(new Pose2d(42.5, -22.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(43, -22.5, Math.toRadians(90)))
                 // .lineToLinearHeading(new Pose2d(44, 18, Math.toRadians(-90)))
                 .build();
 
@@ -71,7 +72,7 @@ public class LeftBlue4 extends LinearOpMode {
 
                 // .lineToLinearHeading(new Pose2d(52.5, 11, Math.toRadians(0)))
                 //.lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(55.5, 23, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(56, 23, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence toBigPole = drive.trajectorySequenceBuilder(new Pose2d(0,0 ,0))
@@ -79,7 +80,7 @@ public class LeftBlue4 extends LinearOpMode {
                 //.lineToLinearHeading(new Pose2d(52, 10, Math.toRadians(0)))
                 //.lineToLinearHeading(new Pose2d(55.75, 10, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(-48,-2,Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(-42.75,3,Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(-42.75,3.5,Math.toRadians(45)))
 
 
 
@@ -111,6 +112,7 @@ public class LeftBlue4 extends LinearOpMode {
             sleep(50);
         }
         int snapshotAnalysis = openCv.analysis();
+        drive.motorLift.setMode(STOP_AND_RESET_ENCODER);
 
         telemetry.addData("Snapshot post-START analysis : ", snapshotAnalysis);
         telemetry.update();
@@ -162,10 +164,16 @@ public class LeftBlue4 extends LinearOpMode {
                     }
                     break;
                 case FIRST_JUNCTION:
-                    armHeight(1.0, (int) (25*84.5));
+                    if (stackConesGrabbed == 0){
+                        armHeight(1.0, (int) (28 * 84.5));
+
+                    }else {
+                        armHeight(1.0, (int) (25 * 84.5));
+                    }
                     if (!drive.isBusy()) {
                         drive.ConeGrabber.setPosition(0.4);
                         sleep(100);
+
                         waitTimer.reset();
 
                         if (stackConesGrabbed == 0) {
